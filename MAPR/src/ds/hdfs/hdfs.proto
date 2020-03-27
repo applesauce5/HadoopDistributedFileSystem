@@ -4,17 +4,17 @@ package hdfs;
 // (Using Google Protocol Buffers) 
 
 option java_package = "ds.hdfs";
-option java_outer_classname = "SOMETHING";
+option java_outer_classname = "marshallstuff";
 
 // Part 1
 message Chunks {
-	repeated Integer chunk = 1;
+	repeated uint32 chunk = 1;
 }
 message FileInfo {
 	optional string filename = 1;
-	optional int filehandle = 2;
-	optional boolean writemode = 3;
-	repeated Chunk chunkList = 4; 
+	optional uint32 filehandle = 2;
+	optional bool writemode = 3;
+	repeated Chunks chunkList = 4; 
 }
 
 // Part 2
