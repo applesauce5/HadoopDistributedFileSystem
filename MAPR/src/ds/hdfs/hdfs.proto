@@ -1,5 +1,27 @@
 package hdfs;
+// All the parameters and return objects should be 
+// marshalled and unmarshalled from byte arrays 
+// (Using Google Protocol Buffers) 
 
 option java_package = "ds.hdfs";
 option java_outer_classname = "SOMETHING";
 
+// Part 1
+message Chunks {
+	repeated Integer chunk = 1;
+}
+message FileInfo {
+	optional string filename = 1;
+	optional int filehandle = 2;
+	optional boolean writemode = 3;
+	repeated Chunk chunkList = 4; 
+}
+
+// Part 2
+message IP {
+	optional string ip = 1;
+}
+
+message IPList {
+	repeated IP address = 1;
+}

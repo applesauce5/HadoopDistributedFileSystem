@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import java.util.*;
 import java.io.*;
 import java.util.concurrent.*;
-//import ds.hdfs.hdfsformat.*;
+import ds.hdfs.hdfsformat.*;
 
 import ds.mapreduce.maprformat.*;
 import com.google.protobuf.ByteString; 

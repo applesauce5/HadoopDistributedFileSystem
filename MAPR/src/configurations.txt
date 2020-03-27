@@ -1,0 +1,2 @@
+// Block size: 64Bytes
+// Block replication Factor: Two way. 

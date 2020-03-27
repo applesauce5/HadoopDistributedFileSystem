@@ -11,12 +11,13 @@ import java.util.concurrent.TimeUnit;
 
 public class NetworkTest implements temporaryInterface{
 
+	// Client program
 	protected Registry serverRegistry;
 	String name;
+	
 	public NetworkTest(String s) throws RemoteException {
 		super();
 		this.name = s;
-		
 	}
 	
 	public static void main(String[] args) throws RemoteException,InterruptedException, UnknownHostException{
@@ -29,8 +30,11 @@ public class NetworkTest implements temporaryInterface{
             System.setSecurityManager(new SecurityManager());
         }
         		
-		final NetworkTest serverObj = new NetworkTest(args[0]);
+        // extends temporaryInterface which extends java.rmi.Remote
+		final NetworkTest serverObj = new NetworkTest(args[0]); // name of something
 		try {
+			
+			//extends java rmi Remote
 			temporaryInterface stub = (temporaryInterface) UnicastRemoteObject.exportObject(serverObj, 0);
 
 			// Bind the remote object's stub in the registry

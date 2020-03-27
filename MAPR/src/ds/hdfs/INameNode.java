@@ -16,6 +16,7 @@ public interface INameNode extends Remote{
 	byte[] assignBlock(byte[] inp ) throws RemoteException;
 	
 	/* List the file names (no directories needed for current implementation */
+	/* possibly use this to find DataNodes that correspond to the given */
 	byte[] list(byte[] inp ) throws RemoteException;
 	
 	/*
