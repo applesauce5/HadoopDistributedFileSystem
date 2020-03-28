@@ -85,12 +85,14 @@ public class NameNode implements INameNode{
 		int filehandle;
 		boolean writemode;
 		ArrayList<Integer> Chunks; // possibly address of the chunks???
-		public FileInfo(String name, int handle, boolean option)
+		int replication;
+		public FileInfo(String name, int handle, boolean option,int rep)
 		{
 			filename = name;
 			filehandle = handle;
 			writemode = option;
 			Chunks = new ArrayList<Integer>();
+			replication = rep;
 		}
 	}
 	

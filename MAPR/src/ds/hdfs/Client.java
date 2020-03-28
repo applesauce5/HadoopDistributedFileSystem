@@ -13,6 +13,8 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.Parser;
 //import ds.hdfs.INameNode;
 
+import ds.hdfs.marshallstuff.*;
+
 /**
  * -> Design the message protocol using protobuf. That will help you in standardizing your work across functions and files. 
  * @author mcho5
@@ -84,13 +86,20 @@ public class Client
         		chunkFiles.add(newFile); // adding on to the list of files
         	}
         	BuffIS.close();
+        	
         	//bis = new BufferedInputStream(new FileInputStream(new File(Filename)));
             
-            // need to consult with NameNode to dismember and allocate blocks
-            // eventually refer to the configuration file for parameters
-           
         	INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099); // (name, ip, port);
             IDataNode tmpDataNode = GetDNStub();
+        	
+            // need to consult with NameNode to dismember and allocate blocks
+            // eventually refer to the configuration file for parameters
+            FileInfo.Builder fileinfo = FileInfo.newBuilder();
+        	fileinfo.setReplication(chunkFiles.size()); // number blocks passed in
+        	fileinfo.setFilename(Filename);
+        	fileinfo.setWritemode(true); // true ?????
+        	
+        	byte[] input = fileinfo.build().toByteArray();
     
         	//byte[] input = ByteString.readFrom(new BufferedInputStream(new FileInputStream(chunkFiles.get(i)))).toByteArray();
             
