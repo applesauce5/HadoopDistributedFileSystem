@@ -7,15 +7,13 @@ option java_package = "ds.hdfs";
 option java_outer_classname = "marshallstuff";
 
 // Part 1
-message Chunks {
-	repeated uint32 chunk = 1;
-}
+
 message FileInfo {
 	optional string filename = 1;
 	optional uint32 filehandle = 2;
 	optional bool writemode = 3;
 	optional uint32 replication = 4; // number of blocks
-	repeated Chunks chunkList = 5; 
+	repeated uint32 chunkList = 5; 
 }
 
 // Part 2
