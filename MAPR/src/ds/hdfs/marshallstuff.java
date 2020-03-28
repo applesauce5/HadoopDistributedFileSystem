@@ -8,483 +8,6 @@ public final class marshallstuff {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface ChunksOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // repeated uint32 chunk = 1;
-    /**
-     * <code>repeated uint32 chunk = 1;</code>
-     */
-    java.util.List<java.lang.Integer> getChunkList();
-    /**
-     * <code>repeated uint32 chunk = 1;</code>
-     */
-    int getChunkCount();
-    /**
-     * <code>repeated uint32 chunk = 1;</code>
-     */
-    int getChunk(int index);
-  }
-  /**
-   * Protobuf type {@code hdfs.Chunks}
-   *
-   * <pre>
-   * Part 1
-   * </pre>
-   */
-  public static final class Chunks extends
-      com.google.protobuf.GeneratedMessage
-      implements ChunksOrBuilder {
-    // Use Chunks.newBuilder() to construct.
-    private Chunks(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private Chunks(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final Chunks defaultInstance;
-    public static Chunks getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public Chunks getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Chunks(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                chunk_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              chunk_.add(input.readUInt32());
-              break;
-            }
-            case 10: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                chunk_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              while (input.getBytesUntilLimit() > 0) {
-                chunk_.add(input.readUInt32());
-              }
-              input.popLimit(limit);
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          chunk_ = java.util.Collections.unmodifiableList(chunk_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return ds.hdfs.marshallstuff.internal_static_hdfs_Chunks_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return ds.hdfs.marshallstuff.internal_static_hdfs_Chunks_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              ds.hdfs.marshallstuff.Chunks.class, ds.hdfs.marshallstuff.Chunks.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<Chunks> PARSER =
-        new com.google.protobuf.AbstractParser<Chunks>() {
-      public Chunks parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Chunks(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Chunks> getParserForType() {
-      return PARSER;
-    }
-
-    // repeated uint32 chunk = 1;
-    public static final int CHUNK_FIELD_NUMBER = 1;
-    private java.util.List<java.lang.Integer> chunk_;
-    /**
-     * <code>repeated uint32 chunk = 1;</code>
-     */
-    public java.util.List<java.lang.Integer>
-        getChunkList() {
-      return chunk_;
-    }
-    /**
-     * <code>repeated uint32 chunk = 1;</code>
-     */
-    public int getChunkCount() {
-      return chunk_.size();
-    }
-    /**
-     * <code>repeated uint32 chunk = 1;</code>
-     */
-    public int getChunk(int index) {
-      return chunk_.get(index);
-    }
-
-    private void initFields() {
-      chunk_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      for (int i = 0; i < chunk_.size(); i++) {
-        output.writeUInt32(1, chunk_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      {
-        int dataSize = 0;
-        for (int i = 0; i < chunk_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt32SizeNoTag(chunk_.get(i));
-        }
-        size += dataSize;
-        size += 1 * getChunkList().size();
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static ds.hdfs.marshallstuff.Chunks parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static ds.hdfs.marshallstuff.Chunks parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(ds.hdfs.marshallstuff.Chunks prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code hdfs.Chunks}
-     *
-     * <pre>
-     * Part 1
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements ds.hdfs.marshallstuff.ChunksOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return ds.hdfs.marshallstuff.internal_static_hdfs_Chunks_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return ds.hdfs.marshallstuff.internal_static_hdfs_Chunks_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                ds.hdfs.marshallstuff.Chunks.class, ds.hdfs.marshallstuff.Chunks.Builder.class);
-      }
-
-      // Construct using ds.hdfs.marshallstuff.Chunks.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        chunk_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return ds.hdfs.marshallstuff.internal_static_hdfs_Chunks_descriptor;
-      }
-
-      public ds.hdfs.marshallstuff.Chunks getDefaultInstanceForType() {
-        return ds.hdfs.marshallstuff.Chunks.getDefaultInstance();
-      }
-
-      public ds.hdfs.marshallstuff.Chunks build() {
-        ds.hdfs.marshallstuff.Chunks result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public ds.hdfs.marshallstuff.Chunks buildPartial() {
-        ds.hdfs.marshallstuff.Chunks result = new ds.hdfs.marshallstuff.Chunks(this);
-        int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          chunk_ = java.util.Collections.unmodifiableList(chunk_);
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.chunk_ = chunk_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ds.hdfs.marshallstuff.Chunks) {
-          return mergeFrom((ds.hdfs.marshallstuff.Chunks)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(ds.hdfs.marshallstuff.Chunks other) {
-        if (other == ds.hdfs.marshallstuff.Chunks.getDefaultInstance()) return this;
-        if (!other.chunk_.isEmpty()) {
-          if (chunk_.isEmpty()) {
-            chunk_ = other.chunk_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureChunkIsMutable();
-            chunk_.addAll(other.chunk_);
-          }
-          onChanged();
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        ds.hdfs.marshallstuff.Chunks parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (ds.hdfs.marshallstuff.Chunks) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // repeated uint32 chunk = 1;
-      private java.util.List<java.lang.Integer> chunk_ = java.util.Collections.emptyList();
-      private void ensureChunkIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          chunk_ = new java.util.ArrayList<java.lang.Integer>(chunk_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-      /**
-       * <code>repeated uint32 chunk = 1;</code>
-       */
-      public java.util.List<java.lang.Integer>
-          getChunkList() {
-        return java.util.Collections.unmodifiableList(chunk_);
-      }
-      /**
-       * <code>repeated uint32 chunk = 1;</code>
-       */
-      public int getChunkCount() {
-        return chunk_.size();
-      }
-      /**
-       * <code>repeated uint32 chunk = 1;</code>
-       */
-      public int getChunk(int index) {
-        return chunk_.get(index);
-      }
-      /**
-       * <code>repeated uint32 chunk = 1;</code>
-       */
-      public Builder setChunk(
-          int index, int value) {
-        ensureChunkIsMutable();
-        chunk_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated uint32 chunk = 1;</code>
-       */
-      public Builder addChunk(int value) {
-        ensureChunkIsMutable();
-        chunk_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated uint32 chunk = 1;</code>
-       */
-      public Builder addAllChunk(
-          java.lang.Iterable<? extends java.lang.Integer> values) {
-        ensureChunkIsMutable();
-        super.addAll(values, chunk_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated uint32 chunk = 1;</code>
-       */
-      public Builder clearChunk() {
-        chunk_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:hdfs.Chunks)
-    }
-
-    static {
-      defaultInstance = new Chunks(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:hdfs.Chunks)
-  }
-
   public interface FileInfoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -533,30 +56,19 @@ public final class marshallstuff {
      */
     int getReplication();
 
-    // repeated .hdfs.Chunks chunkList = 5;
+    // repeated uint32 chunkList = 5;
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+     * <code>repeated uint32 chunkList = 5;</code>
      */
-    java.util.List<ds.hdfs.marshallstuff.Chunks> 
-        getChunkListList();
+    java.util.List<java.lang.Integer> getChunkListList();
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-     */
-    ds.hdfs.marshallstuff.Chunks getChunkList(int index);
-    /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+     * <code>repeated uint32 chunkList = 5;</code>
      */
     int getChunkListCount();
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+     * <code>repeated uint32 chunkList = 5;</code>
      */
-    java.util.List<? extends ds.hdfs.marshallstuff.ChunksOrBuilder> 
-        getChunkListOrBuilderList();
-    /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-     */
-    ds.hdfs.marshallstuff.ChunksOrBuilder getChunkListOrBuilder(
-        int index);
+    int getChunkList(int index);
   }
   /**
    * Protobuf type {@code hdfs.FileInfo}
@@ -629,12 +141,25 @@ public final class marshallstuff {
               replication_ = input.readUInt32();
               break;
             }
-            case 42: {
+            case 40: {
               if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                chunkList_ = new java.util.ArrayList<ds.hdfs.marshallstuff.Chunks>();
+                chunkList_ = new java.util.ArrayList<java.lang.Integer>();
                 mutable_bitField0_ |= 0x00000010;
               }
-              chunkList_.add(input.readMessage(ds.hdfs.marshallstuff.Chunks.PARSER, extensionRegistry));
+              chunkList_.add(input.readUInt32());
+              break;
+            }
+            case 42: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010) && input.getBytesUntilLimit() > 0) {
+                chunkList_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                chunkList_.add(input.readUInt32());
+              }
+              input.popLimit(limit);
               break;
             }
           }
@@ -771,39 +296,26 @@ public final class marshallstuff {
       return replication_;
     }
 
-    // repeated .hdfs.Chunks chunkList = 5;
+    // repeated uint32 chunkList = 5;
     public static final int CHUNKLIST_FIELD_NUMBER = 5;
-    private java.util.List<ds.hdfs.marshallstuff.Chunks> chunkList_;
+    private java.util.List<java.lang.Integer> chunkList_;
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+     * <code>repeated uint32 chunkList = 5;</code>
      */
-    public java.util.List<ds.hdfs.marshallstuff.Chunks> getChunkListList() {
+    public java.util.List<java.lang.Integer>
+        getChunkListList() {
       return chunkList_;
     }
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-     */
-    public java.util.List<? extends ds.hdfs.marshallstuff.ChunksOrBuilder> 
-        getChunkListOrBuilderList() {
-      return chunkList_;
-    }
-    /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+     * <code>repeated uint32 chunkList = 5;</code>
      */
     public int getChunkListCount() {
       return chunkList_.size();
     }
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+     * <code>repeated uint32 chunkList = 5;</code>
      */
-    public ds.hdfs.marshallstuff.Chunks getChunkList(int index) {
-      return chunkList_.get(index);
-    }
-    /**
-     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-     */
-    public ds.hdfs.marshallstuff.ChunksOrBuilder getChunkListOrBuilder(
-        int index) {
+    public int getChunkList(int index) {
       return chunkList_.get(index);
     }
 
@@ -839,7 +351,7 @@ public final class marshallstuff {
         output.writeUInt32(4, replication_);
       }
       for (int i = 0; i < chunkList_.size(); i++) {
-        output.writeMessage(5, chunkList_.get(i));
+        output.writeUInt32(5, chunkList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -866,9 +378,14 @@ public final class marshallstuff {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, replication_);
       }
-      for (int i = 0; i < chunkList_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, chunkList_.get(i));
+      {
+        int dataSize = 0;
+        for (int i = 0; i < chunkList_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeUInt32SizeNoTag(chunkList_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getChunkListList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -978,7 +495,6 @@ public final class marshallstuff {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getChunkListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -995,12 +511,8 @@ public final class marshallstuff {
         bitField0_ = (bitField0_ & ~0x00000004);
         replication_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        if (chunkListBuilder_ == null) {
-          chunkList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
-        } else {
-          chunkListBuilder_.clear();
-        }
+        chunkList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1045,15 +557,11 @@ public final class marshallstuff {
           to_bitField0_ |= 0x00000008;
         }
         result.replication_ = replication_;
-        if (chunkListBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
-            chunkList_ = java.util.Collections.unmodifiableList(chunkList_);
-            bitField0_ = (bitField0_ & ~0x00000010);
-          }
-          result.chunkList_ = chunkList_;
-        } else {
-          result.chunkList_ = chunkListBuilder_.build();
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          chunkList_ = java.util.Collections.unmodifiableList(chunkList_);
+          bitField0_ = (bitField0_ & ~0x00000010);
         }
+        result.chunkList_ = chunkList_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1084,31 +592,15 @@ public final class marshallstuff {
         if (other.hasReplication()) {
           setReplication(other.getReplication());
         }
-        if (chunkListBuilder_ == null) {
-          if (!other.chunkList_.isEmpty()) {
-            if (chunkList_.isEmpty()) {
-              chunkList_ = other.chunkList_;
-              bitField0_ = (bitField0_ & ~0x00000010);
-            } else {
-              ensureChunkListIsMutable();
-              chunkList_.addAll(other.chunkList_);
-            }
-            onChanged();
+        if (!other.chunkList_.isEmpty()) {
+          if (chunkList_.isEmpty()) {
+            chunkList_ = other.chunkList_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureChunkListIsMutable();
+            chunkList_.addAll(other.chunkList_);
           }
-        } else {
-          if (!other.chunkList_.isEmpty()) {
-            if (chunkListBuilder_.isEmpty()) {
-              chunkListBuilder_.dispose();
-              chunkListBuilder_ = null;
-              chunkList_ = other.chunkList_;
-              bitField0_ = (bitField0_ & ~0x00000010);
-              chunkListBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getChunkListFieldBuilder() : null;
-            } else {
-              chunkListBuilder_.addAllMessages(other.chunkList_);
-            }
-          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1310,244 +802,70 @@ public final class marshallstuff {
         return this;
       }
 
-      // repeated .hdfs.Chunks chunkList = 5;
-      private java.util.List<ds.hdfs.marshallstuff.Chunks> chunkList_ =
-        java.util.Collections.emptyList();
+      // repeated uint32 chunkList = 5;
+      private java.util.List<java.lang.Integer> chunkList_ = java.util.Collections.emptyList();
       private void ensureChunkListIsMutable() {
         if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-          chunkList_ = new java.util.ArrayList<ds.hdfs.marshallstuff.Chunks>(chunkList_);
+          chunkList_ = new java.util.ArrayList<java.lang.Integer>(chunkList_);
           bitField0_ |= 0x00000010;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          ds.hdfs.marshallstuff.Chunks, ds.hdfs.marshallstuff.Chunks.Builder, ds.hdfs.marshallstuff.ChunksOrBuilder> chunkListBuilder_;
-
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+       * <code>repeated uint32 chunkList = 5;</code>
        */
-      public java.util.List<ds.hdfs.marshallstuff.Chunks> getChunkListList() {
-        if (chunkListBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(chunkList_);
-        } else {
-          return chunkListBuilder_.getMessageList();
-        }
+      public java.util.List<java.lang.Integer>
+          getChunkListList() {
+        return java.util.Collections.unmodifiableList(chunkList_);
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+       * <code>repeated uint32 chunkList = 5;</code>
        */
       public int getChunkListCount() {
-        if (chunkListBuilder_ == null) {
-          return chunkList_.size();
-        } else {
-          return chunkListBuilder_.getCount();
-        }
+        return chunkList_.size();
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+       * <code>repeated uint32 chunkList = 5;</code>
        */
-      public ds.hdfs.marshallstuff.Chunks getChunkList(int index) {
-        if (chunkListBuilder_ == null) {
-          return chunkList_.get(index);
-        } else {
-          return chunkListBuilder_.getMessage(index);
-        }
+      public int getChunkList(int index) {
+        return chunkList_.get(index);
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+       * <code>repeated uint32 chunkList = 5;</code>
        */
       public Builder setChunkList(
-          int index, ds.hdfs.marshallstuff.Chunks value) {
-        if (chunkListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChunkListIsMutable();
-          chunkList_.set(index, value);
-          onChanged();
-        } else {
-          chunkListBuilder_.setMessage(index, value);
-        }
+          int index, int value) {
+        ensureChunkListIsMutable();
+        chunkList_.set(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+       * <code>repeated uint32 chunkList = 5;</code>
        */
-      public Builder setChunkList(
-          int index, ds.hdfs.marshallstuff.Chunks.Builder builderForValue) {
-        if (chunkListBuilder_ == null) {
-          ensureChunkListIsMutable();
-          chunkList_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          chunkListBuilder_.setMessage(index, builderForValue.build());
-        }
+      public Builder addChunkList(int value) {
+        ensureChunkListIsMutable();
+        chunkList_.add(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public Builder addChunkList(ds.hdfs.marshallstuff.Chunks value) {
-        if (chunkListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChunkListIsMutable();
-          chunkList_.add(value);
-          onChanged();
-        } else {
-          chunkListBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public Builder addChunkList(
-          int index, ds.hdfs.marshallstuff.Chunks value) {
-        if (chunkListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChunkListIsMutable();
-          chunkList_.add(index, value);
-          onChanged();
-        } else {
-          chunkListBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public Builder addChunkList(
-          ds.hdfs.marshallstuff.Chunks.Builder builderForValue) {
-        if (chunkListBuilder_ == null) {
-          ensureChunkListIsMutable();
-          chunkList_.add(builderForValue.build());
-          onChanged();
-        } else {
-          chunkListBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public Builder addChunkList(
-          int index, ds.hdfs.marshallstuff.Chunks.Builder builderForValue) {
-        if (chunkListBuilder_ == null) {
-          ensureChunkListIsMutable();
-          chunkList_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          chunkListBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+       * <code>repeated uint32 chunkList = 5;</code>
        */
       public Builder addAllChunkList(
-          java.lang.Iterable<? extends ds.hdfs.marshallstuff.Chunks> values) {
-        if (chunkListBuilder_ == null) {
-          ensureChunkListIsMutable();
-          super.addAll(values, chunkList_);
-          onChanged();
-        } else {
-          chunkListBuilder_.addAllMessages(values);
-        }
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureChunkListIsMutable();
+        super.addAll(values, chunkList_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
+       * <code>repeated uint32 chunkList = 5;</code>
        */
       public Builder clearChunkList() {
-        if (chunkListBuilder_ == null) {
-          chunkList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
-          onChanged();
-        } else {
-          chunkListBuilder_.clear();
-        }
+        chunkList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public Builder removeChunkList(int index) {
-        if (chunkListBuilder_ == null) {
-          ensureChunkListIsMutable();
-          chunkList_.remove(index);
-          onChanged();
-        } else {
-          chunkListBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public ds.hdfs.marshallstuff.Chunks.Builder getChunkListBuilder(
-          int index) {
-        return getChunkListFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public ds.hdfs.marshallstuff.ChunksOrBuilder getChunkListOrBuilder(
-          int index) {
-        if (chunkListBuilder_ == null) {
-          return chunkList_.get(index);  } else {
-          return chunkListBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public java.util.List<? extends ds.hdfs.marshallstuff.ChunksOrBuilder> 
-           getChunkListOrBuilderList() {
-        if (chunkListBuilder_ != null) {
-          return chunkListBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(chunkList_);
-        }
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public ds.hdfs.marshallstuff.Chunks.Builder addChunkListBuilder() {
-        return getChunkListFieldBuilder().addBuilder(
-            ds.hdfs.marshallstuff.Chunks.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public ds.hdfs.marshallstuff.Chunks.Builder addChunkListBuilder(
-          int index) {
-        return getChunkListFieldBuilder().addBuilder(
-            index, ds.hdfs.marshallstuff.Chunks.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
-       */
-      public java.util.List<ds.hdfs.marshallstuff.Chunks.Builder> 
-           getChunkListBuilderList() {
-        return getChunkListFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          ds.hdfs.marshallstuff.Chunks, ds.hdfs.marshallstuff.Chunks.Builder, ds.hdfs.marshallstuff.ChunksOrBuilder> 
-          getChunkListFieldBuilder() {
-        if (chunkListBuilder_ == null) {
-          chunkListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              ds.hdfs.marshallstuff.Chunks, ds.hdfs.marshallstuff.Chunks.Builder, ds.hdfs.marshallstuff.ChunksOrBuilder>(
-                  chunkList_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
-                  getParentForChildren(),
-                  isClean());
-          chunkList_ = null;
-        }
-        return chunkListBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:hdfs.FileInfo)
@@ -2715,11 +2033,6 @@ public final class marshallstuff {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_hdfs_Chunks_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_hdfs_Chunks_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_hdfs_FileInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -2743,39 +2056,32 @@ public final class marshallstuff {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nhdfs.proto\022\004hdfs\"\027\n\006Chunks\022\r\n\005chunk\030\001 " +
-      "\003(\r\"y\n\010FileInfo\022\020\n\010filename\030\001 \001(\t\022\022\n\nfil" +
-      "ehandle\030\002 \001(\r\022\021\n\twritemode\030\003 \001(\010\022\023\n\013repl" +
-      "ication\030\004 \001(\r\022\037\n\tchunkList\030\005 \003(\0132\014.hdfs." +
-      "Chunks\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"#\n\006IPList\022\031\n\007ad" +
-      "dress\030\001 \003(\0132\010.hdfs.IPB\030\n\007ds.hdfsB\rmarsha" +
-      "llstuff"
+      "\n\nhdfs.proto\022\004hdfs\"k\n\010FileInfo\022\020\n\010filena" +
+      "me\030\001 \001(\t\022\022\n\nfilehandle\030\002 \001(\r\022\021\n\twritemod" +
+      "e\030\003 \001(\010\022\023\n\013replication\030\004 \001(\r\022\021\n\tchunkLis" +
+      "t\030\005 \003(\r\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"#\n\006IPList\022\031\n\007a" +
+      "ddress\030\001 \003(\0132\010.hdfs.IPB\030\n\007ds.hdfsB\rmarsh" +
+      "allstuff"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_hdfs_Chunks_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_hdfs_Chunks_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_hdfs_Chunks_descriptor,
-              new java.lang.String[] { "Chunk", });
           internal_static_hdfs_FileInfo_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+            getDescriptor().getMessageTypes().get(0);
           internal_static_hdfs_FileInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hdfs_FileInfo_descriptor,
               new java.lang.String[] { "Filename", "Filehandle", "Writemode", "Replication", "ChunkList", });
           internal_static_hdfs_IP_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(1);
           internal_static_hdfs_IP_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hdfs_IP_descriptor,
               new java.lang.String[] { "Ip", });
           internal_static_hdfs_IPList_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_hdfs_IPList_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hdfs_IPList_descriptor,
