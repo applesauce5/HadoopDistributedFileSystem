@@ -523,27 +523,37 @@ public final class marshallstuff {
      */
     boolean getWritemode();
 
-    // repeated .hdfs.Chunks chunkList = 4;
+    // optional uint32 replication = 4;
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>optional uint32 replication = 4;</code>
+     */
+    boolean hasReplication();
+    /**
+     * <code>optional uint32 replication = 4;</code>
+     */
+    int getReplication();
+
+    // repeated .hdfs.Chunks chunkList = 5;
+    /**
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     java.util.List<ds.hdfs.marshallstuff.Chunks> 
         getChunkListList();
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     ds.hdfs.marshallstuff.Chunks getChunkList(int index);
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     int getChunkListCount();
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     java.util.List<? extends ds.hdfs.marshallstuff.ChunksOrBuilder> 
         getChunkListOrBuilderList();
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     ds.hdfs.marshallstuff.ChunksOrBuilder getChunkListOrBuilder(
         int index);
@@ -614,10 +624,15 @@ public final class marshallstuff {
               writemode_ = input.readBool();
               break;
             }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+            case 32: {
+              bitField0_ |= 0x00000008;
+              replication_ = input.readUInt32();
+              break;
+            }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 chunkList_ = new java.util.ArrayList<ds.hdfs.marshallstuff.Chunks>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000010;
               }
               chunkList_.add(input.readMessage(ds.hdfs.marshallstuff.Chunks.PARSER, extensionRegistry));
               break;
@@ -630,7 +645,7 @@ public final class marshallstuff {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           chunkList_ = java.util.Collections.unmodifiableList(chunkList_);
         }
         this.unknownFields = unknownFields.build();
@@ -740,36 +755,52 @@ public final class marshallstuff {
       return writemode_;
     }
 
-    // repeated .hdfs.Chunks chunkList = 4;
-    public static final int CHUNKLIST_FIELD_NUMBER = 4;
+    // optional uint32 replication = 4;
+    public static final int REPLICATION_FIELD_NUMBER = 4;
+    private int replication_;
+    /**
+     * <code>optional uint32 replication = 4;</code>
+     */
+    public boolean hasReplication() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional uint32 replication = 4;</code>
+     */
+    public int getReplication() {
+      return replication_;
+    }
+
+    // repeated .hdfs.Chunks chunkList = 5;
+    public static final int CHUNKLIST_FIELD_NUMBER = 5;
     private java.util.List<ds.hdfs.marshallstuff.Chunks> chunkList_;
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     public java.util.List<ds.hdfs.marshallstuff.Chunks> getChunkListList() {
       return chunkList_;
     }
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     public java.util.List<? extends ds.hdfs.marshallstuff.ChunksOrBuilder> 
         getChunkListOrBuilderList() {
       return chunkList_;
     }
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     public int getChunkListCount() {
       return chunkList_.size();
     }
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     public ds.hdfs.marshallstuff.Chunks getChunkList(int index) {
       return chunkList_.get(index);
     }
     /**
-     * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+     * <code>repeated .hdfs.Chunks chunkList = 5;</code>
      */
     public ds.hdfs.marshallstuff.ChunksOrBuilder getChunkListOrBuilder(
         int index) {
@@ -780,6 +811,7 @@ public final class marshallstuff {
       filename_ = "";
       filehandle_ = 0;
       writemode_ = false;
+      replication_ = 0;
       chunkList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -803,8 +835,11 @@ public final class marshallstuff {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, writemode_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeUInt32(4, replication_);
+      }
       for (int i = 0; i < chunkList_.size(); i++) {
-        output.writeMessage(4, chunkList_.get(i));
+        output.writeMessage(5, chunkList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -827,9 +862,13 @@ public final class marshallstuff {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, writemode_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, replication_);
+      }
       for (int i = 0; i < chunkList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, chunkList_.get(i));
+          .computeMessageSize(5, chunkList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -954,9 +993,11 @@ public final class marshallstuff {
         bitField0_ = (bitField0_ & ~0x00000002);
         writemode_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        replication_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         if (chunkListBuilder_ == null) {
           chunkList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           chunkListBuilder_.clear();
         }
@@ -1000,10 +1041,14 @@ public final class marshallstuff {
           to_bitField0_ |= 0x00000004;
         }
         result.writemode_ = writemode_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.replication_ = replication_;
         if (chunkListBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
             chunkList_ = java.util.Collections.unmodifiableList(chunkList_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.chunkList_ = chunkList_;
         } else {
@@ -1036,11 +1081,14 @@ public final class marshallstuff {
         if (other.hasWritemode()) {
           setWritemode(other.getWritemode());
         }
+        if (other.hasReplication()) {
+          setReplication(other.getReplication());
+        }
         if (chunkListBuilder_ == null) {
           if (!other.chunkList_.isEmpty()) {
             if (chunkList_.isEmpty()) {
               chunkList_ = other.chunkList_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureChunkListIsMutable();
               chunkList_.addAll(other.chunkList_);
@@ -1053,7 +1101,7 @@ public final class marshallstuff {
               chunkListBuilder_.dispose();
               chunkListBuilder_ = null;
               chunkList_ = other.chunkList_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
               chunkListBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getChunkListFieldBuilder() : null;
@@ -1229,13 +1277,46 @@ public final class marshallstuff {
         return this;
       }
 
-      // repeated .hdfs.Chunks chunkList = 4;
+      // optional uint32 replication = 4;
+      private int replication_ ;
+      /**
+       * <code>optional uint32 replication = 4;</code>
+       */
+      public boolean hasReplication() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional uint32 replication = 4;</code>
+       */
+      public int getReplication() {
+        return replication_;
+      }
+      /**
+       * <code>optional uint32 replication = 4;</code>
+       */
+      public Builder setReplication(int value) {
+        bitField0_ |= 0x00000008;
+        replication_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 replication = 4;</code>
+       */
+      public Builder clearReplication() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        replication_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .hdfs.Chunks chunkList = 5;
       private java.util.List<ds.hdfs.marshallstuff.Chunks> chunkList_ =
         java.util.Collections.emptyList();
       private void ensureChunkListIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
           chunkList_ = new java.util.ArrayList<ds.hdfs.marshallstuff.Chunks>(chunkList_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -1243,7 +1324,7 @@ public final class marshallstuff {
           ds.hdfs.marshallstuff.Chunks, ds.hdfs.marshallstuff.Chunks.Builder, ds.hdfs.marshallstuff.ChunksOrBuilder> chunkListBuilder_;
 
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public java.util.List<ds.hdfs.marshallstuff.Chunks> getChunkListList() {
         if (chunkListBuilder_ == null) {
@@ -1253,7 +1334,7 @@ public final class marshallstuff {
         }
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public int getChunkListCount() {
         if (chunkListBuilder_ == null) {
@@ -1263,7 +1344,7 @@ public final class marshallstuff {
         }
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public ds.hdfs.marshallstuff.Chunks getChunkList(int index) {
         if (chunkListBuilder_ == null) {
@@ -1273,7 +1354,7 @@ public final class marshallstuff {
         }
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder setChunkList(
           int index, ds.hdfs.marshallstuff.Chunks value) {
@@ -1290,7 +1371,7 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder setChunkList(
           int index, ds.hdfs.marshallstuff.Chunks.Builder builderForValue) {
@@ -1304,7 +1385,7 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder addChunkList(ds.hdfs.marshallstuff.Chunks value) {
         if (chunkListBuilder_ == null) {
@@ -1320,7 +1401,7 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder addChunkList(
           int index, ds.hdfs.marshallstuff.Chunks value) {
@@ -1337,7 +1418,7 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder addChunkList(
           ds.hdfs.marshallstuff.Chunks.Builder builderForValue) {
@@ -1351,7 +1432,7 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder addChunkList(
           int index, ds.hdfs.marshallstuff.Chunks.Builder builderForValue) {
@@ -1365,7 +1446,7 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder addAllChunkList(
           java.lang.Iterable<? extends ds.hdfs.marshallstuff.Chunks> values) {
@@ -1379,12 +1460,12 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder clearChunkList() {
         if (chunkListBuilder_ == null) {
           chunkList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           chunkListBuilder_.clear();
@@ -1392,7 +1473,7 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public Builder removeChunkList(int index) {
         if (chunkListBuilder_ == null) {
@@ -1405,14 +1486,14 @@ public final class marshallstuff {
         return this;
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public ds.hdfs.marshallstuff.Chunks.Builder getChunkListBuilder(
           int index) {
         return getChunkListFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public ds.hdfs.marshallstuff.ChunksOrBuilder getChunkListOrBuilder(
           int index) {
@@ -1422,7 +1503,7 @@ public final class marshallstuff {
         }
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public java.util.List<? extends ds.hdfs.marshallstuff.ChunksOrBuilder> 
            getChunkListOrBuilderList() {
@@ -1433,14 +1514,14 @@ public final class marshallstuff {
         }
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public ds.hdfs.marshallstuff.Chunks.Builder addChunkListBuilder() {
         return getChunkListFieldBuilder().addBuilder(
             ds.hdfs.marshallstuff.Chunks.getDefaultInstance());
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public ds.hdfs.marshallstuff.Chunks.Builder addChunkListBuilder(
           int index) {
@@ -1448,7 +1529,7 @@ public final class marshallstuff {
             index, ds.hdfs.marshallstuff.Chunks.getDefaultInstance());
       }
       /**
-       * <code>repeated .hdfs.Chunks chunkList = 4;</code>
+       * <code>repeated .hdfs.Chunks chunkList = 5;</code>
        */
       public java.util.List<ds.hdfs.marshallstuff.Chunks.Builder> 
            getChunkListBuilderList() {
@@ -1461,7 +1542,7 @@ public final class marshallstuff {
           chunkListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               ds.hdfs.marshallstuff.Chunks, ds.hdfs.marshallstuff.Chunks.Builder, ds.hdfs.marshallstuff.ChunksOrBuilder>(
                   chunkList_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000010) == 0x00000010),
                   getParentForChildren(),
                   isClean());
           chunkList_ = null;
@@ -2663,11 +2744,12 @@ public final class marshallstuff {
   static {
     java.lang.String[] descriptorData = {
       "\n\nhdfs.proto\022\004hdfs\"\027\n\006Chunks\022\r\n\005chunk\030\001 " +
-      "\003(\r\"d\n\010FileInfo\022\020\n\010filename\030\001 \001(\t\022\022\n\nfil" +
-      "ehandle\030\002 \001(\r\022\021\n\twritemode\030\003 \001(\010\022\037\n\tchun" +
-      "kList\030\004 \003(\0132\014.hdfs.Chunks\"\020\n\002IP\022\n\n\002ip\030\001 " +
-      "\001(\t\"#\n\006IPList\022\031\n\007address\030\001 \003(\0132\010.hdfs.IP" +
-      "B\030\n\007ds.hdfsB\rmarshallstuff"
+      "\003(\r\"y\n\010FileInfo\022\020\n\010filename\030\001 \001(\t\022\022\n\nfil" +
+      "ehandle\030\002 \001(\r\022\021\n\twritemode\030\003 \001(\010\022\023\n\013repl" +
+      "ication\030\004 \001(\r\022\037\n\tchunkList\030\005 \003(\0132\014.hdfs." +
+      "Chunks\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"#\n\006IPList\022\031\n\007ad" +
+      "dress\030\001 \003(\0132\010.hdfs.IPB\030\n\007ds.hdfsB\rmarsha" +
+      "llstuff"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2685,7 +2767,7 @@ public final class marshallstuff {
           internal_static_hdfs_FileInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hdfs_FileInfo_descriptor,
-              new java.lang.String[] { "Filename", "Filehandle", "Writemode", "ChunkList", });
+              new java.lang.String[] { "Filename", "Filehandle", "Writemode", "Replication", "ChunkList", });
           internal_static_hdfs_IP_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_hdfs_IP_fieldAccessorTable = new

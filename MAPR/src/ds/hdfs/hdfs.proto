@@ -14,7 +14,8 @@ message FileInfo {
 	optional string filename = 1;
 	optional uint32 filehandle = 2;
 	optional bool writemode = 3;
-	repeated Chunks chunkList = 4; 
+	optional uint32 replication = 4;
+	repeated Chunks chunkList = 5; 
 }
 
 // Part 2
