@@ -99,13 +99,16 @@ public class Client
         	fileinfo.setFilename(Filename);
         	fileinfo.setWritemode(true); // true ?????
         	
+        	// --> marshall data into byte array using google protobuf and pass it in as input to the NameNode 
         	byte[] input = fileinfo.build().toByteArray();
     
         	//byte[] input = ByteString.readFrom(new BufferedInputStream(new FileInputStream(chunkFiles.get(i)))).toByteArray();
             
-        	// --> marshall data into byte array using google protobuf and pass it in as input to the NameNode 
         	byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned
-            // --> retrieve ip addresses here through google protobuf 
+            
+        	// --> retrieve ip addresses here through google protobuf 
+            FileInfo msgResponse = FileInfo.parseFrom(blkLocations);
+            ArrayList<Integer> list = (ArrayList<Integer>) msgResponse.getChunkListList();
             
             
             
