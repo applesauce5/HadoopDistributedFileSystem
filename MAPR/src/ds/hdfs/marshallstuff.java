@@ -56,19 +56,25 @@ public final class marshallstuff {
      */
     int getReplication();
 
-    // repeated uint32 chunkList = 5;
+    // repeated string chunkList = 5;
     /**
-     * <code>repeated uint32 chunkList = 5;</code>
+     * <code>repeated string chunkList = 5;</code>
      */
-    java.util.List<java.lang.Integer> getChunkListList();
+    java.util.List<java.lang.String>
+    getChunkListList();
     /**
-     * <code>repeated uint32 chunkList = 5;</code>
+     * <code>repeated string chunkList = 5;</code>
      */
     int getChunkListCount();
     /**
-     * <code>repeated uint32 chunkList = 5;</code>
+     * <code>repeated string chunkList = 5;</code>
      */
-    int getChunkList(int index);
+    java.lang.String getChunkList(int index);
+    /**
+     * <code>repeated string chunkList = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getChunkListBytes(int index);
   }
   /**
    * Protobuf type {@code hdfs.FileInfo}
@@ -141,25 +147,12 @@ public final class marshallstuff {
               replication_ = input.readUInt32();
               break;
             }
-            case 40: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                chunkList_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000010;
-              }
-              chunkList_.add(input.readUInt32());
-              break;
-            }
             case 42: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010) && input.getBytesUntilLimit() > 0) {
-                chunkList_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                chunkList_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000010;
               }
-              while (input.getBytesUntilLimit() > 0) {
-                chunkList_.add(input.readUInt32());
-              }
-              input.popLimit(limit);
+              chunkList_.add(input.readBytes());
               break;
             }
           }
@@ -171,7 +164,7 @@ public final class marshallstuff {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-          chunkList_ = java.util.Collections.unmodifiableList(chunkList_);
+          chunkList_ = new com.google.protobuf.UnmodifiableLazyStringList(chunkList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -296,27 +289,34 @@ public final class marshallstuff {
       return replication_;
     }
 
-    // repeated uint32 chunkList = 5;
+    // repeated string chunkList = 5;
     public static final int CHUNKLIST_FIELD_NUMBER = 5;
-    private java.util.List<java.lang.Integer> chunkList_;
+    private com.google.protobuf.LazyStringList chunkList_;
     /**
-     * <code>repeated uint32 chunkList = 5;</code>
+     * <code>repeated string chunkList = 5;</code>
      */
-    public java.util.List<java.lang.Integer>
+    public java.util.List<java.lang.String>
         getChunkListList() {
       return chunkList_;
     }
     /**
-     * <code>repeated uint32 chunkList = 5;</code>
+     * <code>repeated string chunkList = 5;</code>
      */
     public int getChunkListCount() {
       return chunkList_.size();
     }
     /**
-     * <code>repeated uint32 chunkList = 5;</code>
+     * <code>repeated string chunkList = 5;</code>
      */
-    public int getChunkList(int index) {
+    public java.lang.String getChunkList(int index) {
       return chunkList_.get(index);
+    }
+    /**
+     * <code>repeated string chunkList = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getChunkListBytes(int index) {
+      return chunkList_.getByteString(index);
     }
 
     private void initFields() {
@@ -324,7 +324,7 @@ public final class marshallstuff {
       filehandle_ = 0;
       writemode_ = false;
       replication_ = 0;
-      chunkList_ = java.util.Collections.emptyList();
+      chunkList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -351,7 +351,7 @@ public final class marshallstuff {
         output.writeUInt32(4, replication_);
       }
       for (int i = 0; i < chunkList_.size(); i++) {
-        output.writeUInt32(5, chunkList_.get(i));
+        output.writeBytes(5, chunkList_.getByteString(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -382,7 +382,7 @@ public final class marshallstuff {
         int dataSize = 0;
         for (int i = 0; i < chunkList_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt32SizeNoTag(chunkList_.get(i));
+            .computeBytesSizeNoTag(chunkList_.getByteString(i));
         }
         size += dataSize;
         size += 1 * getChunkListList().size();
@@ -511,7 +511,7 @@ public final class marshallstuff {
         bitField0_ = (bitField0_ & ~0x00000004);
         replication_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        chunkList_ = java.util.Collections.emptyList();
+        chunkList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
@@ -558,7 +558,8 @@ public final class marshallstuff {
         }
         result.replication_ = replication_;
         if (((bitField0_ & 0x00000010) == 0x00000010)) {
-          chunkList_ = java.util.Collections.unmodifiableList(chunkList_);
+          chunkList_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              chunkList_);
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.chunkList_ = chunkList_;
@@ -802,68 +803,95 @@ public final class marshallstuff {
         return this;
       }
 
-      // repeated uint32 chunkList = 5;
-      private java.util.List<java.lang.Integer> chunkList_ = java.util.Collections.emptyList();
+      // repeated string chunkList = 5;
+      private com.google.protobuf.LazyStringList chunkList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureChunkListIsMutable() {
         if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-          chunkList_ = new java.util.ArrayList<java.lang.Integer>(chunkList_);
+          chunkList_ = new com.google.protobuf.LazyStringArrayList(chunkList_);
           bitField0_ |= 0x00000010;
          }
       }
       /**
-       * <code>repeated uint32 chunkList = 5;</code>
+       * <code>repeated string chunkList = 5;</code>
        */
-      public java.util.List<java.lang.Integer>
+      public java.util.List<java.lang.String>
           getChunkListList() {
         return java.util.Collections.unmodifiableList(chunkList_);
       }
       /**
-       * <code>repeated uint32 chunkList = 5;</code>
+       * <code>repeated string chunkList = 5;</code>
        */
       public int getChunkListCount() {
         return chunkList_.size();
       }
       /**
-       * <code>repeated uint32 chunkList = 5;</code>
+       * <code>repeated string chunkList = 5;</code>
        */
-      public int getChunkList(int index) {
+      public java.lang.String getChunkList(int index) {
         return chunkList_.get(index);
       }
       /**
-       * <code>repeated uint32 chunkList = 5;</code>
+       * <code>repeated string chunkList = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getChunkListBytes(int index) {
+        return chunkList_.getByteString(index);
+      }
+      /**
+       * <code>repeated string chunkList = 5;</code>
        */
       public Builder setChunkList(
-          int index, int value) {
-        ensureChunkListIsMutable();
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureChunkListIsMutable();
         chunkList_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated uint32 chunkList = 5;</code>
+       * <code>repeated string chunkList = 5;</code>
        */
-      public Builder addChunkList(int value) {
-        ensureChunkListIsMutable();
+      public Builder addChunkList(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureChunkListIsMutable();
         chunkList_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated uint32 chunkList = 5;</code>
+       * <code>repeated string chunkList = 5;</code>
        */
       public Builder addAllChunkList(
-          java.lang.Iterable<? extends java.lang.Integer> values) {
+          java.lang.Iterable<java.lang.String> values) {
         ensureChunkListIsMutable();
         super.addAll(values, chunkList_);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated uint32 chunkList = 5;</code>
+       * <code>repeated string chunkList = 5;</code>
        */
       public Builder clearChunkList() {
-        chunkList_ = java.util.Collections.emptyList();
+        chunkList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string chunkList = 5;</code>
+       */
+      public Builder addChunkListBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureChunkListIsMutable();
+        chunkList_.add(value);
         onChanged();
         return this;
       }
@@ -2059,7 +2087,7 @@ public final class marshallstuff {
       "\n\nhdfs.proto\022\004hdfs\"k\n\010FileInfo\022\020\n\010filena" +
       "me\030\001 \001(\t\022\022\n\nfilehandle\030\002 \001(\r\022\021\n\twritemod" +
       "e\030\003 \001(\010\022\023\n\013replication\030\004 \001(\r\022\021\n\tchunkLis" +
-      "t\030\005 \003(\r\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"#\n\006IPList\022\031\n\007a" +
+      "t\030\005 \003(\t\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"#\n\006IPList\022\031\n\007a" +
       "ddress\030\001 \003(\0132\010.hdfs.IPB\030\n\007ds.hdfsB\rmarsh" +
       "allstuff"
     };
