@@ -25,3 +25,9 @@ message IP {
 message IPList {
 	repeated IP address = 1;
 }
+
+// Part 3 chunks
+message chunkInfo {
+	optional bytes fileData = 1;
+	optional string filename = 2;
+}

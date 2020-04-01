@@ -2060,6 +2060,569 @@ public final class marshallstuff {
     // @@protoc_insertion_point(class_scope:hdfs.IPList)
   }
 
+  public interface chunkInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional bytes fileData = 1;
+    /**
+     * <code>optional bytes fileData = 1;</code>
+     */
+    boolean hasFileData();
+    /**
+     * <code>optional bytes fileData = 1;</code>
+     */
+    com.google.protobuf.ByteString getFileData();
+
+    // optional string filename = 2;
+    /**
+     * <code>optional string filename = 2;</code>
+     */
+    boolean hasFilename();
+    /**
+     * <code>optional string filename = 2;</code>
+     */
+    java.lang.String getFilename();
+    /**
+     * <code>optional string filename = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getFilenameBytes();
+  }
+  /**
+   * Protobuf type {@code hdfs.chunkInfo}
+   *
+   * <pre>
+   * Part 3 chunks
+   * </pre>
+   */
+  public static final class chunkInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements chunkInfoOrBuilder {
+    // Use chunkInfo.newBuilder() to construct.
+    private chunkInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private chunkInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final chunkInfo defaultInstance;
+    public static chunkInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public chunkInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private chunkInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              fileData_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              filename_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ds.hdfs.marshallstuff.internal_static_hdfs_chunkInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ds.hdfs.marshallstuff.internal_static_hdfs_chunkInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ds.hdfs.marshallstuff.chunkInfo.class, ds.hdfs.marshallstuff.chunkInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<chunkInfo> PARSER =
+        new com.google.protobuf.AbstractParser<chunkInfo>() {
+      public chunkInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new chunkInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<chunkInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional bytes fileData = 1;
+    public static final int FILEDATA_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString fileData_;
+    /**
+     * <code>optional bytes fileData = 1;</code>
+     */
+    public boolean hasFileData() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional bytes fileData = 1;</code>
+     */
+    public com.google.protobuf.ByteString getFileData() {
+      return fileData_;
+    }
+
+    // optional string filename = 2;
+    public static final int FILENAME_FIELD_NUMBER = 2;
+    private java.lang.Object filename_;
+    /**
+     * <code>optional string filename = 2;</code>
+     */
+    public boolean hasFilename() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string filename = 2;</code>
+     */
+    public java.lang.String getFilename() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          filename_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string filename = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFilenameBytes() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        filename_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      fileData_ = com.google.protobuf.ByteString.EMPTY;
+      filename_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, fileData_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getFilenameBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, fileData_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getFilenameBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static ds.hdfs.marshallstuff.chunkInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.chunkInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(ds.hdfs.marshallstuff.chunkInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code hdfs.chunkInfo}
+     *
+     * <pre>
+     * Part 3 chunks
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements ds.hdfs.marshallstuff.chunkInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_chunkInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_chunkInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ds.hdfs.marshallstuff.chunkInfo.class, ds.hdfs.marshallstuff.chunkInfo.Builder.class);
+      }
+
+      // Construct using ds.hdfs.marshallstuff.chunkInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fileData_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        filename_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_chunkInfo_descriptor;
+      }
+
+      public ds.hdfs.marshallstuff.chunkInfo getDefaultInstanceForType() {
+        return ds.hdfs.marshallstuff.chunkInfo.getDefaultInstance();
+      }
+
+      public ds.hdfs.marshallstuff.chunkInfo build() {
+        ds.hdfs.marshallstuff.chunkInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public ds.hdfs.marshallstuff.chunkInfo buildPartial() {
+        ds.hdfs.marshallstuff.chunkInfo result = new ds.hdfs.marshallstuff.chunkInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fileData_ = fileData_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.filename_ = filename_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ds.hdfs.marshallstuff.chunkInfo) {
+          return mergeFrom((ds.hdfs.marshallstuff.chunkInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ds.hdfs.marshallstuff.chunkInfo other) {
+        if (other == ds.hdfs.marshallstuff.chunkInfo.getDefaultInstance()) return this;
+        if (other.hasFileData()) {
+          setFileData(other.getFileData());
+        }
+        if (other.hasFilename()) {
+          bitField0_ |= 0x00000002;
+          filename_ = other.filename_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ds.hdfs.marshallstuff.chunkInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ds.hdfs.marshallstuff.chunkInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional bytes fileData = 1;
+      private com.google.protobuf.ByteString fileData_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes fileData = 1;</code>
+       */
+      public boolean hasFileData() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional bytes fileData = 1;</code>
+       */
+      public com.google.protobuf.ByteString getFileData() {
+        return fileData_;
+      }
+      /**
+       * <code>optional bytes fileData = 1;</code>
+       */
+      public Builder setFileData(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        fileData_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes fileData = 1;</code>
+       */
+      public Builder clearFileData() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fileData_ = getDefaultInstance().getFileData();
+        onChanged();
+        return this;
+      }
+
+      // optional string filename = 2;
+      private java.lang.Object filename_ = "";
+      /**
+       * <code>optional string filename = 2;</code>
+       */
+      public boolean hasFilename() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string filename = 2;</code>
+       */
+      public java.lang.String getFilename() {
+        java.lang.Object ref = filename_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          filename_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string filename = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFilenameBytes() {
+        java.lang.Object ref = filename_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          filename_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string filename = 2;</code>
+       */
+      public Builder setFilename(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string filename = 2;</code>
+       */
+      public Builder clearFilename() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        filename_ = getDefaultInstance().getFilename();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string filename = 2;</code>
+       */
+      public Builder setFilenameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:hdfs.chunkInfo)
+    }
+
+    static {
+      defaultInstance = new chunkInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:hdfs.chunkInfo)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_hdfs_FileInfo_descriptor;
   private static
@@ -2075,6 +2638,11 @@ public final class marshallstuff {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_hdfs_IPList_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_hdfs_chunkInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_hdfs_chunkInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2088,8 +2656,9 @@ public final class marshallstuff {
       "me\030\001 \001(\t\022\022\n\nfilehandle\030\002 \001(\r\022\021\n\twritemod" +
       "e\030\003 \001(\010\022\023\n\013replication\030\004 \001(\r\022\021\n\tchunkLis" +
       "t\030\005 \003(\t\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"#\n\006IPList\022\031\n\007a" +
-      "ddress\030\001 \003(\0132\010.hdfs.IPB\030\n\007ds.hdfsB\rmarsh" +
-      "allstuff"
+      "ddress\030\001 \003(\0132\010.hdfs.IP\"/\n\tchunkInfo\022\020\n\010f" +
+      "ileData\030\001 \001(\014\022\020\n\010filename\030\002 \001(\tB\030\n\007ds.hd" +
+      "fsB\rmarshallstuff"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2114,6 +2683,12 @@ public final class marshallstuff {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hdfs_IPList_descriptor,
               new java.lang.String[] { "Address", });
+          internal_static_hdfs_chunkInfo_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_hdfs_chunkInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_hdfs_chunkInfo_descriptor,
+              new java.lang.String[] { "FileData", "Filename", });
           return null;
         }
       };
