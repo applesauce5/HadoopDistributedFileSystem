@@ -9,7 +9,8 @@ import java.rmi.RemoteException;
 import java.util.*;
 import java.io.*;
 //import ds.hdfs.hdfsformat.*;
-import com.google.protobuf.ByteString; 
+import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Parser;
 //import ds.hdfs.INameNode;
 
@@ -64,7 +65,7 @@ public class Client
     public void PutFile(String Filename) //Put File ------ incomplete =========================
     {
         System.out.println("Going to put file" + Filename);
-        BufferedInputStream bis;
+      
         try{
         	// Preparing file for export
         	// breaking into chunks
@@ -72,7 +73,7 @@ public class Client
         	int blockSize = 1000 * 1000 * 64;
         	byte[] buffer = new byte[blockSize];
         	BufferedInputStream BuffIS = new BufferedInputStream(new FileInputStream(file));
-        	LinkedList<File> chunkFiles = new LinkedList<File>();
+        	LinkedList<File> chunkFiles = new LinkedList<File>(); 
         	
         	int bytesAmount = 0;
         	int count = 1;
@@ -90,7 +91,6 @@ public class Client
         	//bis = new BufferedInputStream(new FileInputStream(new File(Filename)));
             
         	INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099); // (name, ip, port);
-            IDataNode tmpDataNode = GetDNStub();
         	
             // need to consult with NameNode to dismember and allocate blocks
             // eventually refer to the configuration file for parameters
@@ -100,34 +100,108 @@ public class Client
         	fileinfo.setWritemode(true); // true ?????
         	
         	// --> marshall data into byte array using google protobuf and pass it in as input to the NameNode 
-        	byte[] input = fileinfo.build().toByteArray();
+        	byte[] inputInit = fileinfo.build().toByteArray(); // pass in protobuf object
     
-        	//byte[] input = ByteString.readFrom(new BufferedInputStream(new FileInputStream(chunkFiles.get(i)))).toByteArray();
+        	/**
+        	 * Sending to NameNode
+        	 */
+        	byte[] input = tmpNameNode.openFile(inputInit); // opened the file, received protobuf object
             
-        	byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned
+        	/**
+        	 * Sending to NameNode
+        	 */
+        	byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned, protobuf object received
             
-        	// --> retrieve ip addresses here through google protobuf 
-            FileInfo msgResponse = FileInfo.parseFrom(blkLocations);
-            ArrayList<Integer> list = (ArrayList<Integer>) msgResponse.getChunkListList();
+        	// --> retrieve ip addresses here through google protobuf    
+        	FileInfo msgResponse = FileInfo.parseFrom(blkLocations);
+            ArrayList<String> list = (ArrayList<String>) msgResponse.getChunkListList();
             
+            for(int i = 0; i < list.size(); i++) {
+            	IDataNode tmpDataNode = GetDNStub("DataNode",list.get(i),1099); // (name, ip, port)
+            	
+            	chunkInfo.Builder newchunk = chunkInfo.newBuilder();
+            	newchunk.setFilename(i + Filename);
+            	
+            	byte[] chunk = new byte[(int) chunkFiles.get(i).length()];
+            	FileInputStream fis = new FileInputStream(chunkFiles.get(i)); // is this supposed to be protobuf?
+            	fis.read(chunk);
+            	fis.close();
+            	newchunk.setFileData(ByteString.copyFrom(chunk)); // File --> byte[] --> ByteString
+            	
+            	byte[] insertchunk = newchunk.build().toByteArray();
+            	
+            	/**
+            	 * Sending to DataNode
+            	 */
+            	tmpDataNode.writeBlock(insertchunk); // passing in by chunk by chunk to the DataNodes	
+            }
             
-            
+            byte[] doneWrite = tmpNameNode.closeFile(input);
+            // Done with writing chunks to their respective DataNodes
         }catch(Exception e){
             System.out.println("File not found !!!");
             return;
         }
     }
 
-    public void GetFile(String FileName) // Get File ------ incomplete =========================
-    {
+    public void GetFile(String Filename) throws IOException {
     	 // need to consult with NameNode to dismember and allocate blocks
         // eventually refer to the configuration file for parameters
         INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099); // (name, ip, port);
         
-        byte[] fileInfo = tmpNameNode.getBlockLocations(input);
-    	// get the file ? 
+        FileInfo.Builder fileinfo = FileInfo.newBuilder();
+        fileinfo.setFilename(Filename);
         
+    	byte[] inputInit = fileinfo.build().toByteArray(); // pass in protobuf object
+    	byte[] input = tmpNameNode.openFile(inputInit); // opened the file, received protobuf object
+        
+    	/**
+    	 * Sending to Name Node
+    	 */
+        byte[] byteResInfo = tmpNameNode.getBlockLocations(input); // IPs of DataNode are given
+    	
+        FileInfo resInfo = FileInfo.parseFrom(byteResInfo);
+    	ArrayList<String> list = (ArrayList<String>) resInfo.getChunkListList();
+    	
         // Go to the Data Nodes to retrieve the blocks and read from each in sequence to combine them
+    	
+    	LinkedList<File> chunkList = new LinkedList<File>();
+    	
+    	for(int i = 0; i < list.size(); i++) {
+    		IDataNode tmpDataNode = GetDNStub("DataNode", list.get(i),1099);
+    		chunkInfo.Builder newchunk = chunkInfo.newBuilder();
+        	newchunk.setFilename(i + Filename);
+        	
+        	byte[] readchunk = newchunk.build().toByteArray();
+        	
+        	/**
+        	 * Sending to DataNode
+        	 */
+        	byte[] resByte = tmpDataNode.readBlock(readchunk);
+        	chunkInfo res = chunkInfo.parseFrom(resByte);
+        	ByteString fileByteStr = res.getFileData();
+        	
+        	File newfile = new File(Filename);
+        	fileByteStr.writeTo(new FileOutputStream(newfile)); // writing contents of bytestring to the new file
+        	chunkList.add(newfile);
+    	}
+    	
+    	// reading into final file
+    	
+    	File finalFile = new File(Filename);
+    	OutputStream output = new BufferedOutputStream(new FileOutputStream(finalFile, true));
+    	for(File src : chunkList) {
+    		InputStream is = new BufferedInputStream(new FileInputStream(src));
+    		byte[] tmpbuff = new byte[1024*4];
+            int n = 0;
+            while (-1 != (n = is.read(tmpbuff))) {
+                output.write(tmpbuff, 0, n);
+            }
+            is.close();		
+    	}
+    	output.close();
+    	
+    	// Finished reading into file
     }
 
     public void List() // list all the files in present in HDFS ============================
@@ -186,7 +260,10 @@ public class Client
                 }catch(ArrayIndexOutOfBoundsException e){
                     System.out.println("Please type 'help' for instructions");
                     continue;
-                }
+                } catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
             else if(Split_Commands[0].equals("list"))
             {

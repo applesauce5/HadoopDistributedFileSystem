@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ import com.google.protobuf.*;
 
 //import ds.hdfs.hdfsformat.*;
 
+import ds.hdfs.marshallstuff.*;
 /**
  * >>>  storing information about the files in the system and handling the communication with DataNodes. <<<
  * >>> NN should be able to perform all major file operations such as open, close, list and should support a 
@@ -77,6 +79,7 @@ public class NameNode implements INameNode{
 			serverName = sname;
 		}
 	}
+	public static LinkedList<DataNode> dataNodeList;
 	
 	// File meta data ?
 	public static class FileInfo
@@ -95,6 +98,7 @@ public class NameNode implements INameNode{
 			replication = rep;
 		}
 	}
+	public static LinkedList<FileInfo> fileInfoList;
 	
 	/* Open a file given file name with read-write flag*/
 	boolean findInFilelist(int fhandle)
@@ -111,28 +115,43 @@ public class NameNode implements INameNode{
 	
 	// 1: The client creates a pipeline, after it has info in address info on the DataNode, to the DataNode and writes
 	// Does not directly correlate with NameNode
-	public byte[] openFile(byte[] inp) throws RemoteException // interface method
-	{
-		try
-		{
+	public byte[] openFile(byte[] inp) throws RemoteException {
+		// maybe input stream output stream related
+		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder(); 
+		try{
 			//implement
+			ds.hdfs.marshallstuff.FileInfo Inp = ds.hdfs.marshallstuff.FileInfo.parseFrom(inp);
+			File file = new File(Inp.getFilename());
+			boolean exists = file.exists();
+			
+			if(file.exists() && file.isFile()) {
+				System.out.println("File is a file and exists");
+				response.setWritemode(true);
+				response.setFilename(Inp.getFilename());
+				response.setFilehandle(Inp.getFilehandle());
+				response.setReplication(Inp.getReplication());
+				for(String i : Inp.getChunkListList()) {
+					response.addChunkList(i);
+				}
+			} else {
+				System.out.println("File does not exist");
+			}
 		}
 		catch (Exception e) 
 		{
 			System.err.println("Error at " + this.getClass() + e.toString());
 			e.printStackTrace();
-			response.setStatus(-1);
+			//response.setStatus(-1);
 		}
 		// servlett response
-		return response.toByteArray();
+		return response.build().toByteArray();
 	}
 	
 	// 2: closes file after writing
 	// Does not directly correlate with NameNode
-	public byte[] closeFile(byte[] inp ) throws RemoteException // interface method
-	{
-		try
-		{
+	public byte[] closeFile(byte[] inp ) throws RemoteException {
+		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder(); 
+		try{
 			//implement
 		}
 		catch(Exception e)
@@ -163,10 +182,16 @@ public class NameNode implements INameNode{
 	}
 	
 	// you have a large file ----------> break file up into possibly a list of blocks
-	public byte[] assignBlock(byte[] inp ) throws RemoteException // interface method
-	{
+	public byte[] assignBlock(byte[] inp ) throws RemoteException {
 		try
 		{
+			if(dataNodeList.size() == 0) {
+				System.out.println("No Data Nodes available");
+			} else {
+				for(int i = 0; i<dataNodeList.size(); i++) {
+					
+				}
+			}
 		}
 		catch(Exception e)
 		{
@@ -227,7 +252,12 @@ public class NameNode implements INameNode{
 	{
 		System.out.println(msg);		
 	}
-	
+	protected void setReg(Registry reg) {
+		this.serverRegistry = reg;
+	}
+	protected Registry getReg() {
+		return this.serverRegistry;
+	}
 	public static void main(String[] args) throws InterruptedException, NumberFormatException, IOException
 	{
 		// NN just persists the filename, list of blocks associated to that file and its creating time
@@ -242,8 +272,8 @@ public class NameNode implements INameNode{
 //        }
 //    	
         try {
-            ImplementHello obj = new ImplementHello();
-            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
+            NameNode obj = new NameNode("192.168.1.182",1099,"NameNode");
+            INameNode stub = (INameNode) UnicastRemoteObject.exportObject(obj, 0);
 
             // Bind the remote object's stub in the registry
               Registry registry = LocateRegistry.getRegistry();

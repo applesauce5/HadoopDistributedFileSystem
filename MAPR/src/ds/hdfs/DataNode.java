@@ -23,6 +23,8 @@ import java.nio.charset.Charset;
 //import ds.hdfs.hdfsformat.*;
 import ds.hdfs.IDataNode.*;
 
+import ds.hdfs.marshallstuff.*;
+
 /**
  * >>> Should be used for performing read and write operations of blocks. <<<
  * 
@@ -88,19 +90,32 @@ public class DataNode implements IDataNode
      * 			Write to the local file. 
      * 	closeFile()
      */
-    public byte[] readBlock(byte[] Inp)
-    {
-        try
-        {
-        	// implement
+    public byte[] readBlock(byte[] Inp) {
+    	
+    	chunkInfo.Builder newRes = chunkInfo.newBuilder();
+    	try {
+    		chunkInfo input = chunkInfo.parseFrom(Inp);
+        	String filename = input.getFilename();
+        	
+        	File file = new File(filename);
+        	byte[] bytesArray = new byte[(int) file.length()]; 
+    	    FileInputStream fis = new FileInputStream(file);
+    	    fis.read(bytesArray); //read file into bytes[]
+    	    fis.close();
+    	    
+        	ByteString bytstrfile = ByteString.copyFrom(bytesArray);
+        	
+        	newRes.setFilename(filename);
+        	newRes.setFileData(bytstrfile);
+        	
         }
         catch(Exception e)
         {
             System.out.println("Error at readBlock");
-            response.setStatus(-1);
+            //newRes.setStatus(-1);
         }
 
-        return response.build().toByteArray();
+        return newRes.build().toByteArray();
     }
 
    /**
@@ -114,19 +129,26 @@ public class DataNode implements IDataNode
 	* 			3. Call writeBlock() on all the assigned DataNodes 
 	* 	closeFile()
     */
-    public byte[] writeBlock(byte[] Inp)
-    {
-        try
-        {
+    public byte[] writeBlock(byte[] Inp) {
+    	chunkInfo.Builder newRes = chunkInfo.newBuilder();
+        try {
         	// implement
+        	chunkInfo input = chunkInfo.parseFrom(Inp);
+        	String filename = input.getFilename();
+        	
+        	File file = new File(filename);
+        	ByteString store = input.getFileData();
+        	
+        	store.writeTo(new FileOutputStream(file)); // block is written into the file
+        	
         }
         catch(Exception e)
         {
             System.out.println("Error at writeBlock ");
-            response.setStatus(-1);
+            //response.setStatus(-1);
         }
 
-        return response.build().toByteArray();
+        return newRes.build().toByteArray();
     }
 
     // BlockReports sent with HeartBeats to the NameNode
@@ -201,14 +223,14 @@ public class DataNode implements IDataNode
 //        }
 //    	
         try {
-            ImplementHello obj = new ImplementHello();
-            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
+           // DataNode obj = new DataNode();
+            IDataNode stub = (IDataNode) UnicastRemoteObject.exportObject(Me, 0);
 
             // Bind the remote object's stub in the registry
               Registry registry = LocateRegistry.getRegistry();
             //Naming.lookup("rmi://localhost:1099/Server");
            // Naming.rebind("HelloServer", obj);
-              registry.bind("Hello", stub);
+              registry.bind("DataNode", stub);
 
             System.err.println("Server ready");
         } catch (Exception e) {
