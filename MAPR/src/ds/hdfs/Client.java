@@ -204,10 +204,16 @@ public class Client
     	// Finished reading into file
     }
 
-    public void List() // list all the files in present in HDFS ==========================
-    {
+    public void List() throws RemoteException, InvalidProtocolBufferException {
     	  INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099); // (name, ip, port);
-    	  tmpNameNode.list();
+    	  NameSpace.Builder input = NameSpace.newBuilder(); // placebo input
+    	  
+    	  byte[] res = tmpNameNode.list(input.build().toByteArray());
+    	  NameSpace listOfFilesByte = NameSpace.parseFrom(res);
+    	  LinkedList<String> listFiles = (LinkedList<String>) listOfFilesByte.getFilenameList();
+    	  for(String i : listFiles) {
+    		  System.out.println(i);
+    	  }
     }
 
     /**

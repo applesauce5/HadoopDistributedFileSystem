@@ -230,8 +230,15 @@ public class NameNode implements INameNode{
 	// 3: list of DataNodes that host replicas of the blocks of the file
 	// 4: Gets the list of files in HDFS <<<<<--------------- most likely this 
 	public byte[] list(byte[] inp ) throws RemoteException {
+		NameSpace.Builder response = NameSpace.newBuilder();
+		if(fileInfoList.size() == 0) {
+			System.out.println("No files in HDFS");
+		}
 		try {
 			//Implement
+			for(FileInfo i : fileInfoList) {
+				response.addFilename(i.filename);
+			}
 		}catch(Exception e) {
 			System.err.println("Error at list "+ e.toString());
 			e.printStackTrace();
