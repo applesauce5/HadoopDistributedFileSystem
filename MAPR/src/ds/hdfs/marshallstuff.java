@@ -3339,6 +3339,511 @@ public final class marshallstuff {
     // @@protoc_insertion_point(class_scope:hdfs.DataNodeInfo)
   }
 
+  public interface NameSpaceOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated string filename = 1;
+    /**
+     * <code>repeated string filename = 1;</code>
+     */
+    java.util.List<java.lang.String>
+    getFilenameList();
+    /**
+     * <code>repeated string filename = 1;</code>
+     */
+    int getFilenameCount();
+    /**
+     * <code>repeated string filename = 1;</code>
+     */
+    java.lang.String getFilename(int index);
+    /**
+     * <code>repeated string filename = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getFilenameBytes(int index);
+  }
+  /**
+   * Protobuf type {@code hdfs.NameSpace}
+   *
+   * <pre>
+   * Part 5 repeated file names
+   * </pre>
+   */
+  public static final class NameSpace extends
+      com.google.protobuf.GeneratedMessage
+      implements NameSpaceOrBuilder {
+    // Use NameSpace.newBuilder() to construct.
+    private NameSpace(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private NameSpace(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final NameSpace defaultInstance;
+    public static NameSpace getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public NameSpace getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NameSpace(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                filename_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              filename_.add(input.readBytes());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          filename_ = new com.google.protobuf.UnmodifiableLazyStringList(filename_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ds.hdfs.marshallstuff.internal_static_hdfs_NameSpace_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ds.hdfs.marshallstuff.internal_static_hdfs_NameSpace_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ds.hdfs.marshallstuff.NameSpace.class, ds.hdfs.marshallstuff.NameSpace.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<NameSpace> PARSER =
+        new com.google.protobuf.AbstractParser<NameSpace>() {
+      public NameSpace parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NameSpace(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NameSpace> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated string filename = 1;
+    public static final int FILENAME_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList filename_;
+    /**
+     * <code>repeated string filename = 1;</code>
+     */
+    public java.util.List<java.lang.String>
+        getFilenameList() {
+      return filename_;
+    }
+    /**
+     * <code>repeated string filename = 1;</code>
+     */
+    public int getFilenameCount() {
+      return filename_.size();
+    }
+    /**
+     * <code>repeated string filename = 1;</code>
+     */
+    public java.lang.String getFilename(int index) {
+      return filename_.get(index);
+    }
+    /**
+     * <code>repeated string filename = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFilenameBytes(int index) {
+      return filename_.getByteString(index);
+    }
+
+    private void initFields() {
+      filename_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < filename_.size(); i++) {
+        output.writeBytes(1, filename_.getByteString(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < filename_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(filename_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getFilenameList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static ds.hdfs.marshallstuff.NameSpace parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.NameSpace parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(ds.hdfs.marshallstuff.NameSpace prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code hdfs.NameSpace}
+     *
+     * <pre>
+     * Part 5 repeated file names
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements ds.hdfs.marshallstuff.NameSpaceOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_NameSpace_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_NameSpace_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ds.hdfs.marshallstuff.NameSpace.class, ds.hdfs.marshallstuff.NameSpace.Builder.class);
+      }
+
+      // Construct using ds.hdfs.marshallstuff.NameSpace.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        filename_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_NameSpace_descriptor;
+      }
+
+      public ds.hdfs.marshallstuff.NameSpace getDefaultInstanceForType() {
+        return ds.hdfs.marshallstuff.NameSpace.getDefaultInstance();
+      }
+
+      public ds.hdfs.marshallstuff.NameSpace build() {
+        ds.hdfs.marshallstuff.NameSpace result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public ds.hdfs.marshallstuff.NameSpace buildPartial() {
+        ds.hdfs.marshallstuff.NameSpace result = new ds.hdfs.marshallstuff.NameSpace(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          filename_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              filename_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.filename_ = filename_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ds.hdfs.marshallstuff.NameSpace) {
+          return mergeFrom((ds.hdfs.marshallstuff.NameSpace)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ds.hdfs.marshallstuff.NameSpace other) {
+        if (other == ds.hdfs.marshallstuff.NameSpace.getDefaultInstance()) return this;
+        if (!other.filename_.isEmpty()) {
+          if (filename_.isEmpty()) {
+            filename_ = other.filename_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureFilenameIsMutable();
+            filename_.addAll(other.filename_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ds.hdfs.marshallstuff.NameSpace parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ds.hdfs.marshallstuff.NameSpace) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated string filename = 1;
+      private com.google.protobuf.LazyStringList filename_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureFilenameIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          filename_ = new com.google.protobuf.LazyStringArrayList(filename_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public java.util.List<java.lang.String>
+          getFilenameList() {
+        return java.util.Collections.unmodifiableList(filename_);
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public int getFilenameCount() {
+        return filename_.size();
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public java.lang.String getFilename(int index) {
+        return filename_.get(index);
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFilenameBytes(int index) {
+        return filename_.getByteString(index);
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public Builder setFilename(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureFilenameIsMutable();
+        filename_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public Builder addFilename(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureFilenameIsMutable();
+        filename_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public Builder addAllFilename(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureFilenameIsMutable();
+        super.addAll(values, filename_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public Builder clearFilename() {
+        filename_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string filename = 1;</code>
+       */
+      public Builder addFilenameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureFilenameIsMutable();
+        filename_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:hdfs.NameSpace)
+    }
+
+    static {
+      defaultInstance = new NameSpace(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:hdfs.NameSpace)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_hdfs_FileInfo_descriptor;
   private static
@@ -3364,6 +3869,11 @@ public final class marshallstuff {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_hdfs_DataNodeInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_hdfs_NameSpace_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_hdfs_NameSpace_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3380,7 +3890,8 @@ public final class marshallstuff {
       "ddress\030\001 \003(\0132\010.hdfs.IP\"/\n\tchunkInfo\022\020\n\010f" +
       "ileData\030\001 \001(\014\022\020\n\010filename\030\002 \001(\t\"<\n\014DataN" +
       "odeInfo\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\022\022\n\nser" +
-      "verName\030\003 \001(\tB\030\n\007ds.hdfsB\rmarshallstuff"
+      "verName\030\003 \001(\t\"\035\n\tNameSpace\022\020\n\010filename\030\001" +
+      " \003(\tB\030\n\007ds.hdfsB\rmarshallstuff"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3417,6 +3928,12 @@ public final class marshallstuff {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hdfs_DataNodeInfo_descriptor,
               new java.lang.String[] { "Ip", "Port", "ServerName", });
+          internal_static_hdfs_NameSpace_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_hdfs_NameSpace_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_hdfs_NameSpace_descriptor,
+              new java.lang.String[] { "Filename", });
           return null;
         }
       };

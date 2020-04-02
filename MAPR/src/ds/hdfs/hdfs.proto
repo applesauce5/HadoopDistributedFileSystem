@@ -38,3 +38,9 @@ message DataNodeInfo {
 	optional uint32 port = 2;
 	optional string serverName = 3;
 }
+
+
+// Part 5 repeated file names
+message NameSpace {
+	repeated string filename = 1;
+}
