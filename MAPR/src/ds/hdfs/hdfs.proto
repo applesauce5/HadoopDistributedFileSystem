@@ -44,3 +44,4 @@ message DataNodeInfo {
 message NameSpace {
 	repeated string filename = 1;
 }
+

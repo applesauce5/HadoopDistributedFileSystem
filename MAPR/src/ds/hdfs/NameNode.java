@@ -79,43 +79,43 @@ public class NameNode implements INameNode{
 			serverName = sname;
 		}
 	}
+	
 	public static LinkedList<DataNode> dataNodeList;
 	
-	// File meta data ?
+	
 	public static class FileInfo
 	{
 		String filename;
 		int filehandle;
 		boolean writemode;
-		ArrayList<Integer> Chunks; // possibly address of the chunks???
+		ArrayList<String> Chunks; // possibly address of the chunks???
 		int replication;
 		public FileInfo(String name, int handle, boolean option,int rep)
 		{
 			filename = name;
 			filehandle = handle;
 			writemode = option;
-			Chunks = new ArrayList<Integer>();
+			Chunks = new ArrayList<String>();
 			replication = rep;
 		}
 	}
+	
 	public static LinkedList<FileInfo> fileInfoList;
 	
 	/* Open a file given file name with read-write flag*/
-	boolean findInFilelist(int fhandle)
-	{
+	boolean findInFilelist(int fhandle) {
 		// default until method is filled out
 		return false;
 	}
 	
 	// 2: list of files in HDFS
-	public void printFilelist()
-	{
+	public void printFilelist() {
 		// default until method is filled out
 	}
 	
 	// 1: The client creates a pipeline, after it has info in address info on the DataNode, to the DataNode and writes
 	// Does not directly correlate with NameNode
-	public byte[] openFile(byte[] inp) throws RemoteException {
+	public synchronized byte[] openFile(byte[] inp) throws RemoteException {
 		// maybe input stream output stream related
 		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder(); 
 		try{
@@ -149,7 +149,7 @@ public class NameNode implements INameNode{
 	
 	// 2: closes file after writing
 	// Does not directly correlate with NameNode
-	public byte[] closeFile(byte[] inp ) throws RemoteException {
+	public synchronized byte[] closeFile(byte[] inp ) throws RemoteException {
 		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder(); 
 		try{
 			//implement
@@ -158,7 +158,7 @@ public class NameNode implements INameNode{
 		{
 			System.err.println("Error at closefileRequest " + e.toString());
 			e.printStackTrace();
-			response.setStatus(-1);
+		//	response.setStatus(-1);
 		}
 		
 		return response.build().toByteArray();
@@ -166,30 +166,53 @@ public class NameNode implements INameNode{
 	
 	// given a block (or list of blocks) provide the corresponding location of this block
 
-	public byte[] getBlockLocations(byte[] inp ) throws RemoteException // interface method 
-	{
-		try
-		{
+	public synchronized byte[] getBlockLocations(byte[] inp ) throws RemoteException {
+		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder();
+		try {
 			//implement
+			ds.hdfs.marshallstuff.FileInfo Inp = ds.hdfs.marshallstuff.FileInfo.parseFrom(inp);
+			response.setWritemode(true);
+			response.setFilename(Inp.getFilename());
+			response.setFilehandle(Inp.getFilehandle());
+			response.setReplication(Inp.getReplication());
+			if(fileInfoList.size() == 0) {
+				System.out.println("No files in the file system");
+			} else {
+				for(FileInfo i : fileInfoList) {
+					if(i.filename.equals(Inp.getFilename())) {
+						response.addAllChunkList(i.Chunks);
+					}
+				}
+			}
 		}
 		catch(Exception e)
 		{
 			System.err.println("Error at getBlockLocations "+ e.toString());
 			e.printStackTrace();
-			response.setStatus(-1);
+			//response.setStatus(-1);
 		}		
 		return response.build().toByteArray(); 
 	}
 	
 	// you have a large file ----------> break file up into possibly a list of blocks
-	public byte[] assignBlock(byte[] inp ) throws RemoteException {
-		try
-		{
+	public synchronized byte[] assignBlock(byte[] inp ) throws RemoteException{
+		ds.hdfs.marshallstuff.FileInfo.Builder newFInfo = ds.hdfs.marshallstuff.FileInfo.newBuilder();
+		try {
+			ds.hdfs.marshallstuff.FileInfo Inp = ds.hdfs.marshallstuff.FileInfo.parseFrom(inp);
+			int chunksNeeded = Inp.getReplication();
+			newFInfo.setReplication(chunksNeeded);
+			newFInfo.setFilename(Inp.getFilename());
+			newFInfo.setFilehandle(Inp.getFilehandle());
+			newFInfo.setWritemode(Inp.getWritemode());
+		
 			if(dataNodeList.size() == 0) {
 				System.out.println("No Data Nodes available");
 			} else {
-				for(int i = 0; i<dataNodeList.size(); i++) {
-					
+				int i = 0;
+				while(i < dataNodeList.size() && chunksNeeded > 0) {
+					newFInfo.addChunkList(dataNodeList.get(i).ip);  // assigning IP's 
+					chunksNeeded--;
+					i++;
 				}
 			}
 		}
@@ -197,24 +220,22 @@ public class NameNode implements INameNode{
 		{
 			System.err.println("Error at AssignBlock "+ e.toString());
 			e.printStackTrace();
-			response.setStatus(-1);
+			//response.setStatus(-1);
 		}
 		
-		return response.build().toByteArray();
+		return newFInfo.build().toByteArray();
 	}
 		
 	// 1: "persists the filename" = list of blocks associated with a particular file ?? 
 	// 3: list of DataNodes that host replicas of the blocks of the file
 	// 4: Gets the list of files in HDFS <<<<<--------------- most likely this 
-	public byte[] list(byte[] inp ) throws RemoteException // interface method
-	{
-		try
-		{
-		}catch(Exception e)
-		{
+	public byte[] list(byte[] inp ) throws RemoteException {
+		try {
+			//Implement
+		}catch(Exception e) {
 			System.err.println("Error at list "+ e.toString());
 			e.printStackTrace();
-			response.setStatus(-1);
+			//response.setStatus(-1);
 		}
 		return response.build().toByteArray();
 	}
@@ -223,41 +244,71 @@ public class NameNode implements INameNode{
 		
 	// Block reports are sent from the DataNodes along with the heart beat messages
 	// >> Used to inform the NameNode about information of the <blocks> in the DataNodes
-	public byte[] blockReport(byte[] inp ) throws RemoteException // interface method
-	{
-		try
-		{
+	public synchronized byte[] blockReport(byte[] inp ) throws RemoteException {
+		
+		DataNodeInfo.Builder response = DataNodeInfo.newBuilder();
+		try {
 			//implement
+			DataNodeInfo Inp = DataNodeInfo.parseFrom(inp);
+			boolean has = false;
+			DataNode newNode = new DataNode(Inp.getIp(),Inp.getPort(),Inp.getServerName());
+			for(DataNode i : dataNodeList) {
+				if(i.ip.equals(newNode.ip)) {
+					System.out.println("Data Node is already documented");
+					has = true;
+				} 
+			}
+			if(!has) {
+				dataNodeList.add(newNode);
+			}
+			response.setIp(Inp.getIp());
+			response.setPort(Inp.getPort());
+			response.setServerName(Inp.getServerName());
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
 			System.err.println("Error at blockReport "+ e.toString());
 			e.printStackTrace();
-			response.addStatus(-1);
+		//	response.addStatus(-1);
 		}
+		// temporary response for the sake of functionality
 		return response.build().toByteArray();
 	}
 	
 	
 	// Heart beat signals sent from the DataNode to the NameNode
 	//   -> BlockReports are tagged along with the heart beat signals 
-	public byte[] heartBeat(byte[] inp ) throws RemoteException // interface method
-	{
+	public synchronized byte[] heartBeat(byte[] inp ) throws RemoteException {
 		// to be sent to each of the DataNodes currently on list
+		// -----> temporary response for the sake of functionality
+		DataNodeInfo.Builder response = DataNodeInfo.newBuilder();
+		try {
+			DataNodeInfo Inp = DataNodeInfo.parseFrom(inp);
+			response.setIp(Inp.getIp());
+			response.setPort(Inp.getPort());
+			response.setServerName(Inp.getServerName());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		return response.build().toByteArray();
 	}
 	
-	// Uhhh..... what is this for?
+	/**
+	 * Extra getters and setters and print messages
+	 * 
+	 */
 	public void printMsg(String msg)
 	{
 		System.out.println(msg);		
 	}
+	
 	protected void setReg(Registry reg) {
 		this.serverRegistry = reg;
 	}
 	protected Registry getReg() {
 		return this.serverRegistry;
 	}
+	
+	
 	public static void main(String[] args) throws InterruptedException, NumberFormatException, IOException
 	{
 		// NN just persists the filename, list of blocks associated to that file and its creating time

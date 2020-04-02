@@ -47,14 +47,14 @@ public class DataNode implements IDataNode
     protected String MyName;
     protected int MyID;
 
-    public DataNode()
-    {
+    public DataNode() {
         //Constructor
     	// perhaps do something here
     }
 
     // gather corresponding blocks and persist into file??
     // ignore ---------------------------------------------Project 2
+  /**
     public static void appendtoFile(String Filename, String Line)
     {
         BufferedWriter bw = null;
@@ -77,7 +77,7 @@ public class DataNode implements IDataNode
         }
 
     }
-
+**/
     /**
      * --> Create and return a unique handle for each opened file. 
      * Get all block locations for the file 
@@ -90,7 +90,7 @@ public class DataNode implements IDataNode
      * 			Write to the local file. 
      * 	closeFile()
      */
-    public byte[] readBlock(byte[] Inp) {
+    public synchronized byte[] readBlock(byte[] Inp) {
     	
     	chunkInfo.Builder newRes = chunkInfo.newBuilder();
     	try {
@@ -129,7 +129,7 @@ public class DataNode implements IDataNode
 	* 			3. Call writeBlock() on all the assigned DataNodes 
 	* 	closeFile()
     */
-    public byte[] writeBlock(byte[] Inp) {
+    public synchronized byte[] writeBlock(byte[] Inp) {
     	chunkInfo.Builder newRes = chunkInfo.newBuilder();
         try {
         	// implement
@@ -153,15 +153,23 @@ public class DataNode implements IDataNode
 
     // BlockReports sent with HeartBeats to the NameNode
     // NameNode then knows the locations of each block and tracks this information in memory
-    public void BlockReport() throws IOException
-    {
-    	// implement
+    public synchronized void BlockReport() throws IOException {
+    	// call NameNode's Block report and heartbeat messages
+    	 INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099);
+    	 this.NNStub = tmpNameNode;
+    	 DataNodeInfo.Builder response = DataNodeInfo.newBuilder();
+    	 response.setIp(this.MyIP);
+    	 response.setPort(this.MyPort);
+    	 response.setServerName(this.MyName);
+    	 
+    	 byte[] DataNodebyte = response.build().toByteArray();
+    	 tmpNameNode.heartBeat(DataNodebyte);
+    	 tmpNameNode.blockReport(DataNodebyte);
     }
 
     // Socket programming
     // Server code
-    public void BindServer(String Name, String IP, int Port)
-    {
+    public void BindServer(String Name, String IP, int Port) {
         try
         {
             IDataNode stub = (IDataNode) UnicastRemoteObject.exportObject(this, 0);

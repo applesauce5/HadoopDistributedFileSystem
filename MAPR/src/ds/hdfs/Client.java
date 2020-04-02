@@ -204,9 +204,10 @@ public class Client
     	// Finished reading into file
     }
 
-    public void List() // list all the files in present in HDFS ============================
+    public void List() // list all the files in present in HDFS ==========================
     {
     	  INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099); // (name, ip, port);
+    	  tmpNameNode.list();
     }
 
     /**
