@@ -2623,6 +2623,722 @@ public final class marshallstuff {
     // @@protoc_insertion_point(class_scope:hdfs.chunkInfo)
   }
 
+  public interface DataNodeInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional string ip = 1;
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    boolean hasIp();
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    java.lang.String getIp();
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getIpBytes();
+
+    // optional uint32 port = 2;
+    /**
+     * <code>optional uint32 port = 2;</code>
+     */
+    boolean hasPort();
+    /**
+     * <code>optional uint32 port = 2;</code>
+     */
+    int getPort();
+
+    // optional string serverName = 3;
+    /**
+     * <code>optional string serverName = 3;</code>
+     */
+    boolean hasServerName();
+    /**
+     * <code>optional string serverName = 3;</code>
+     */
+    java.lang.String getServerName();
+    /**
+     * <code>optional string serverName = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getServerNameBytes();
+  }
+  /**
+   * Protobuf type {@code hdfs.DataNodeInfo}
+   *
+   * <pre>
+   * Part 4 DataNode
+   * </pre>
+   */
+  public static final class DataNodeInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements DataNodeInfoOrBuilder {
+    // Use DataNodeInfo.newBuilder() to construct.
+    private DataNodeInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DataNodeInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DataNodeInfo defaultInstance;
+    public static DataNodeInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DataNodeInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DataNodeInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              ip_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              port_ = input.readUInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              serverName_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ds.hdfs.marshallstuff.internal_static_hdfs_DataNodeInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ds.hdfs.marshallstuff.internal_static_hdfs_DataNodeInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ds.hdfs.marshallstuff.DataNodeInfo.class, ds.hdfs.marshallstuff.DataNodeInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DataNodeInfo> PARSER =
+        new com.google.protobuf.AbstractParser<DataNodeInfo>() {
+      public DataNodeInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DataNodeInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DataNodeInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional string ip = 1;
+    public static final int IP_FIELD_NUMBER = 1;
+    private java.lang.Object ip_;
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    public boolean hasIp() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    public java.lang.String getIp() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          ip_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIpBytes() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional uint32 port = 2;
+    public static final int PORT_FIELD_NUMBER = 2;
+    private int port_;
+    /**
+     * <code>optional uint32 port = 2;</code>
+     */
+    public boolean hasPort() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional uint32 port = 2;</code>
+     */
+    public int getPort() {
+      return port_;
+    }
+
+    // optional string serverName = 3;
+    public static final int SERVERNAME_FIELD_NUMBER = 3;
+    private java.lang.Object serverName_;
+    /**
+     * <code>optional string serverName = 3;</code>
+     */
+    public boolean hasServerName() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string serverName = 3;</code>
+     */
+    public java.lang.String getServerName() {
+      java.lang.Object ref = serverName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serverName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string serverName = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getServerNameBytes() {
+      java.lang.Object ref = serverName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serverName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      ip_ = "";
+      port_ = 0;
+      serverName_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getIpBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, port_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getServerNameBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getIpBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, port_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getServerNameBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static ds.hdfs.marshallstuff.DataNodeInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(ds.hdfs.marshallstuff.DataNodeInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code hdfs.DataNodeInfo}
+     *
+     * <pre>
+     * Part 4 DataNode
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements ds.hdfs.marshallstuff.DataNodeInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_DataNodeInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_DataNodeInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ds.hdfs.marshallstuff.DataNodeInfo.class, ds.hdfs.marshallstuff.DataNodeInfo.Builder.class);
+      }
+
+      // Construct using ds.hdfs.marshallstuff.DataNodeInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        ip_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        port_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        serverName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ds.hdfs.marshallstuff.internal_static_hdfs_DataNodeInfo_descriptor;
+      }
+
+      public ds.hdfs.marshallstuff.DataNodeInfo getDefaultInstanceForType() {
+        return ds.hdfs.marshallstuff.DataNodeInfo.getDefaultInstance();
+      }
+
+      public ds.hdfs.marshallstuff.DataNodeInfo build() {
+        ds.hdfs.marshallstuff.DataNodeInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public ds.hdfs.marshallstuff.DataNodeInfo buildPartial() {
+        ds.hdfs.marshallstuff.DataNodeInfo result = new ds.hdfs.marshallstuff.DataNodeInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.ip_ = ip_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.port_ = port_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.serverName_ = serverName_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ds.hdfs.marshallstuff.DataNodeInfo) {
+          return mergeFrom((ds.hdfs.marshallstuff.DataNodeInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ds.hdfs.marshallstuff.DataNodeInfo other) {
+        if (other == ds.hdfs.marshallstuff.DataNodeInfo.getDefaultInstance()) return this;
+        if (other.hasIp()) {
+          bitField0_ |= 0x00000001;
+          ip_ = other.ip_;
+          onChanged();
+        }
+        if (other.hasPort()) {
+          setPort(other.getPort());
+        }
+        if (other.hasServerName()) {
+          bitField0_ |= 0x00000004;
+          serverName_ = other.serverName_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ds.hdfs.marshallstuff.DataNodeInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ds.hdfs.marshallstuff.DataNodeInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional string ip = 1;
+      private java.lang.Object ip_ = "";
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public boolean hasIp() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public java.lang.String getIp() {
+        java.lang.Object ref = ip_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          ip_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIpBytes() {
+        java.lang.Object ref = ip_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ip_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public Builder setIp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        ip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public Builder clearIp() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        ip_ = getDefaultInstance().getIp();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public Builder setIpBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        ip_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 port = 2;
+      private int port_ ;
+      /**
+       * <code>optional uint32 port = 2;</code>
+       */
+      public boolean hasPort() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional uint32 port = 2;</code>
+       */
+      public int getPort() {
+        return port_;
+      }
+      /**
+       * <code>optional uint32 port = 2;</code>
+       */
+      public Builder setPort(int value) {
+        bitField0_ |= 0x00000002;
+        port_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 port = 2;</code>
+       */
+      public Builder clearPort() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        port_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string serverName = 3;
+      private java.lang.Object serverName_ = "";
+      /**
+       * <code>optional string serverName = 3;</code>
+       */
+      public boolean hasServerName() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string serverName = 3;</code>
+       */
+      public java.lang.String getServerName() {
+        java.lang.Object ref = serverName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string serverName = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getServerNameBytes() {
+        java.lang.Object ref = serverName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serverName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string serverName = 3;</code>
+       */
+      public Builder setServerName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        serverName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string serverName = 3;</code>
+       */
+      public Builder clearServerName() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        serverName_ = getDefaultInstance().getServerName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string serverName = 3;</code>
+       */
+      public Builder setServerNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        serverName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:hdfs.DataNodeInfo)
+    }
+
+    static {
+      defaultInstance = new DataNodeInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:hdfs.DataNodeInfo)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_hdfs_FileInfo_descriptor;
   private static
@@ -2643,6 +3359,11 @@ public final class marshallstuff {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_hdfs_chunkInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_hdfs_DataNodeInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_hdfs_DataNodeInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2657,8 +3378,9 @@ public final class marshallstuff {
       "e\030\003 \001(\010\022\023\n\013replication\030\004 \001(\r\022\021\n\tchunkLis" +
       "t\030\005 \003(\t\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"#\n\006IPList\022\031\n\007a" +
       "ddress\030\001 \003(\0132\010.hdfs.IP\"/\n\tchunkInfo\022\020\n\010f" +
-      "ileData\030\001 \001(\014\022\020\n\010filename\030\002 \001(\tB\030\n\007ds.hd" +
-      "fsB\rmarshallstuff"
+      "ileData\030\001 \001(\014\022\020\n\010filename\030\002 \001(\t\"<\n\014DataN" +
+      "odeInfo\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\022\022\n\nser" +
+      "verName\030\003 \001(\tB\030\n\007ds.hdfsB\rmarshallstuff"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2689,6 +3411,12 @@ public final class marshallstuff {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hdfs_chunkInfo_descriptor,
               new java.lang.String[] { "FileData", "Filename", });
+          internal_static_hdfs_DataNodeInfo_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_hdfs_DataNodeInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_hdfs_DataNodeInfo_descriptor,
+              new java.lang.String[] { "Ip", "Port", "ServerName", });
           return null;
         }
       };

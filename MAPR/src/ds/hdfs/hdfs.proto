@@ -31,3 +31,10 @@ message chunkInfo {
 	optional bytes fileData = 1;
 	optional string filename = 2;
 }
+
+// Part 4 DataNode
+message DataNodeInfo {
+	optional string ip = 1;
+	optional uint32 port = 2;
+	optional string serverName = 3;
+}
