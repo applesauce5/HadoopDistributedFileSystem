@@ -114,7 +114,7 @@ public class NameNode implements INameNode{
 	}
 	
 	// 1: The client creates a pipeline, after it has info in address info on the DataNode, to the DataNode and writes
-	// Does not directly correlate with NameNode
+
 	public synchronized byte[] openFile(byte[] inp) throws RemoteException {
 		// maybe input stream output stream related
 		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder(); 
@@ -148,7 +148,7 @@ public class NameNode implements INameNode{
 	}
 	
 	// 2: closes file after writing
-	// Does not directly correlate with NameNode
+
 	public synchronized byte[] closeFile(byte[] inp ) throws RemoteException {
 		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder(); 
 		try{
@@ -255,7 +255,9 @@ public class NameNode implements INameNode{
 		
 		DataNodeInfo.Builder response = DataNodeInfo.newBuilder();
 		try {
-			//implement
+			/**
+			 * Form google protobuf object of data node
+			 */
 			DataNodeInfo Inp = DataNodeInfo.parseFrom(inp);
 			boolean has = false;
 			DataNode newNode = new DataNode(Inp.getIp(),Inp.getPort(),Inp.getServerName());
@@ -275,7 +277,6 @@ public class NameNode implements INameNode{
 		catch(Exception e) {
 			System.err.println("Error at blockReport "+ e.toString());
 			e.printStackTrace();
-		//	response.addStatus(-1);
 		}
 		// temporary response for the sake of functionality
 		return response.build().toByteArray();
@@ -323,21 +324,15 @@ public class NameNode implements INameNode{
 		/**
          * Server code
          */
-        System.setProperty("java.rmi.server.hostname","192.168.1.182");
-//    	System.setProperty("java.security.policy","test.policy");
-//    	if (System.getSecurityManager() == null) {
-//            System.setSecurityManager(new SecurityManager());
-//        }
-//    	
+        System.setProperty("java.rmi.server.hostname","cd.cs.rutgers.edu");
+	
         try {
-            NameNode obj = new NameNode("192.168.1.182",1099,"NameNode");
+            NameNode obj = new NameNode("cp.cs.rutgers.edu",1099,"NameNode");
             INameNode stub = (INameNode) UnicastRemoteObject.exportObject(obj, 0);
 
-            // Bind the remote object's stub in the registry
-              Registry registry = LocateRegistry.getRegistry();
-            //Naming.lookup("rmi://localhost:1099/Server");
-           // Naming.rebind("HelloServer", obj);
-              registry.bind("Hello", stub);
+            Registry registry = LocateRegistry.getRegistry();
+  
+            registry.bind("NameNode", stub);
 
             System.err.println("Server ready");
         } catch (Exception e) {

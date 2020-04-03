@@ -47,9 +47,12 @@ public class DataNode implements IDataNode
     protected String MyName;
     protected int MyID;
 
-    public DataNode() {
+    public DataNode(String ip, int port, String name) {
         //Constructor
     	// perhaps do something here
+    	this.MyIP = ip;
+    	this.MyPort = port;
+    	this.MyName = name;
     }
 
     // gather corresponding blocks and persist into file??
@@ -155,7 +158,7 @@ public class DataNode implements IDataNode
     // NameNode then knows the locations of each block and tracks this information in memory
     public synchronized void BlockReport() throws IOException {
     	// call NameNode's Block report and heartbeat messages
-    	 INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099);
+    	 INameNode tmpNameNode = GetNNStub("NameNode","cp.cs.rutgers.edu",1099);
     	 this.NNStub = tmpNameNode;
     	 DataNodeInfo.Builder response = DataNodeInfo.newBuilder();
     	 response.setIp(this.MyIP);
@@ -220,27 +223,21 @@ public class DataNode implements IDataNode
     public static void main(String args[]) throws InvalidProtocolBufferException, IOException
     {
         // Define a Datanode Me
-        DataNode Me = new DataNode();  
+        DataNode Me = new DataNode("ls.cs.rutgers.edu",1099,"DataNode");  
         /**
          * Server code
          */
-        System.setProperty("java.rmi.server.hostname","192.168.1.182");
-//    	System.setProperty("java.security.policy","test.policy");
-//    	if (System.getSecurityManager() == null) {
-//            System.setSecurityManager(new SecurityManager());
-//        }
-//    	
+        System.setProperty("java.rmi.server.hostname","ls.cs.rutgers.edu");
+  	
         try {
-           // DataNode obj = new DataNode();
             IDataNode stub = (IDataNode) UnicastRemoteObject.exportObject(Me, 0);
-
-            // Bind the remote object's stub in the registry
-              Registry registry = LocateRegistry.getRegistry();
-            //Naming.lookup("rmi://localhost:1099/Server");
-           // Naming.rebind("HelloServer", obj);
-              registry.bind("DataNode", stub);
-
-            System.err.println("Server ready");
+            Registry registry = LocateRegistry.getRegistry();
+            registry.bind("DataNode", stub);
+            while(true) {
+	            System.err.println("Server ready");
+	            Me.BlockReport();
+	            TimeUnit.SECONDS.sleep(3);
+            }
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             e.printStackTrace();

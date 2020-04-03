@@ -46,12 +46,9 @@ public class Client
         }
     }
 
-    public INameNode GetNNStub(String Name, String IP, int Port)
-    {
-        while(true)
-        {
-            try
-            {
+    public INameNode GetNNStub(String Name, String IP, int Port){
+        while(true) {
+            try {
                 Registry registry = LocateRegistry.getRegistry(IP, Port);
                 INameNode stub = (INameNode) registry.lookup(Name);
                 return stub;
@@ -62,18 +59,20 @@ public class Client
     }
 
    
-    public void PutFile(String Filename) //Put File ------ incomplete =========================
-    {
+    public void PutFile(String Filename) {
         System.out.println("Going to put file" + Filename);
       
         try{
+        	/**
         	// Preparing file for export
         	// breaking into chunks
+        	 * 
+        	 */
         	File file = new File(Filename);
         	int blockSize = 1000 * 1000 * 64;
         	byte[] buffer = new byte[blockSize];
         	BufferedInputStream BuffIS = new BufferedInputStream(new FileInputStream(file));
-        	LinkedList<File> chunkFiles = new LinkedList<File>(); 
+        	LinkedList<File> chunkFiles = new LinkedList<File>();  // List of chunk files
         	
         	int bytesAmount = 0;
         	int count = 1;
@@ -87,15 +86,17 @@ public class Client
         		chunkFiles.add(newFile); // adding on to the list of files
         	}
         	BuffIS.close();
-        	
-        	//bis = new BufferedInputStream(new FileInputStream(new File(Filename)));
             
-        	INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099); // (name, ip, port);
+        	// Reference to the Name Node stub
+        	INameNode tmpNameNode = GetNNStub("NameNode","cp.cs.rutgers.edu",1099); 
         	
-            // need to consult with NameNode to dismember and allocate blocks
+        	/**
+            // need to consult with NameNode to  allocate blocks
             // eventually refer to the configuration file for parameters
+             * 
+             */
             FileInfo.Builder fileinfo = FileInfo.newBuilder();
-        	fileinfo.setReplication(chunkFiles.size()); // number blocks passed in
+        	fileinfo.setReplication(2); // number blocks passed in
         	fileinfo.setFilename(Filename);
         	fileinfo.setWritemode(true); // true ?????
         	
@@ -105,37 +106,45 @@ public class Client
         	/**
         	 * Sending to NameNode
         	 */
+        	
         	byte[] input = tmpNameNode.openFile(inputInit); // opened the file, received protobuf object
             
         	/**
-        	 * Sending to NameNode
+        	 * Sending to NameNode to assign blocks for a particular file
         	 */
+        	
         	byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned, protobuf object received
             
-        	// --> retrieve ip addresses here through google protobuf    
+        	// extract ip addresses here 
         	FileInfo msgResponse = FileInfo.parseFrom(blkLocations);
             ArrayList<String> list = (ArrayList<String>) msgResponse.getChunkListList();
             
             for(int i = 0; i < list.size(); i++) {
-            	IDataNode tmpDataNode = GetDNStub("DataNode",list.get(i),1099); // (name, ip, port)
-            	
-            	chunkInfo.Builder newchunk = chunkInfo.newBuilder();
-            	newchunk.setFilename(i + Filename);
-            	
-            	byte[] chunk = new byte[(int) chunkFiles.get(i).length()];
-            	FileInputStream fis = new FileInputStream(chunkFiles.get(i)); // is this supposed to be protobuf?
-            	fis.read(chunk);
-            	fis.close();
-            	newchunk.setFileData(ByteString.copyFrom(chunk)); // File --> byte[] --> ByteString
-            	
-            	byte[] insertchunk = newchunk.build().toByteArray();
-            	
-            	/**
-            	 * Sending to DataNode
-            	 */
-            	tmpDataNode.writeBlock(insertchunk); // passing in by chunk by chunk to the DataNodes	
+            	for(File j : chunkFiles) {
+	            	IDataNode tmpDataNode = GetDNStub("DataNode",list.get(i),1099); // (name, ip, port)
+	            	
+	            	chunkInfo.Builder newchunk = chunkInfo.newBuilder();
+	            	newchunk.setFilename(i + Filename);
+	            	
+	            	// File --> byte[]
+	            	byte[] chunk = new byte[(int) j.length()];
+	            	FileInputStream fis = new FileInputStream(j); 
+	            	fis.read(chunk);
+	            	fis.close();
+	            	newchunk.setFileData(ByteString.copyFrom(chunk)); // File --> byte[] --> ByteString
+	            	
+	            	byte[] insertchunk = newchunk.build().toByteArray();
+	            	
+	            	/**
+	            	 * Sending to DataNode
+	            	 * -> passing in by chunk by chunk to the DataNodes	to the ip addresses given
+	            	 */
+	            	tmpDataNode.writeBlock(insertchunk); // 
+            	}
             }
-            
+            /**
+             * Finally close the file
+             */
             byte[] doneWrite = tmpNameNode.closeFile(input);
             // Done with writing chunks to their respective DataNodes
         }catch(Exception e){
@@ -147,7 +156,7 @@ public class Client
     public void GetFile(String Filename) throws IOException {
     	 // need to consult with NameNode to dismember and allocate blocks
         // eventually refer to the configuration file for parameters
-        INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099); // (name, ip, port);
+        INameNode tmpNameNode = GetNNStub("NameNode","cp.cs.rutgers.edu",1099); // (name, ip, port);
         
         FileInfo.Builder fileinfo = FileInfo.newBuilder();
         fileinfo.setFilename(Filename);
@@ -175,7 +184,7 @@ public class Client
         	byte[] readchunk = newchunk.build().toByteArray();
         	
         	/**
-        	 * Sending to DataNode
+        	 * Sending to DataNode, read a block from each DataNode and put inside a File Linked List
         	 */
         	byte[] resByte = tmpDataNode.readBlock(readchunk);
         	chunkInfo res = chunkInfo.parseFrom(resByte);
@@ -186,8 +195,9 @@ public class Client
         	chunkList.add(newfile);
     	}
     	
-    	// reading into final file
-    	
+    	/**
+    	 *  Combine all the chunks read into 1 file
+    	 */
     	File finalFile = new File(Filename);
     	OutputStream output = new BufferedOutputStream(new FileOutputStream(finalFile, true));
     	for(File src : chunkList) {
@@ -204,16 +214,24 @@ public class Client
     	// Finished reading into file
     }
 
-    public void List() throws RemoteException, InvalidProtocolBufferException {
-    	  INameNode tmpNameNode = GetNNStub("NameNode","192.168.1.182",1099); // (name, ip, port);
-    	  NameSpace.Builder input = NameSpace.newBuilder(); // placebo input
+    public void List() throws RemoteException {
+    	  INameNode tmpNameNode = GetNNStub("NameNode","cp.cs.rutgers.edu",1099); // (name, ip, port);
     	  
+    	  NameSpace.Builder input = NameSpace.newBuilder(); // placebo input
     	  byte[] res = tmpNameNode.list(input.build().toByteArray());
-    	  NameSpace listOfFilesByte = NameSpace.parseFrom(res);
-    	  LinkedList<String> listFiles = (LinkedList<String>) listOfFilesByte.getFilenameList();
-    	  for(String i : listFiles) {
-    		  System.out.println(i);
-    	  }
+    	  NameSpace listOfFilesByte;
+    	  
+    	  try {
+    		  listOfFilesByte = NameSpace.parseFrom(res);
+	    	  LinkedList<String> listFiles = (LinkedList<String>) listOfFilesByte.getFilenameList();
+	    	  for(String i : listFiles) {
+	    		  System.out.println(i);
+	    	  }
+		  } catch (InvalidProtocolBufferException e) {
+			  // TODO Auto-generated catch block
+			  System.out.println("error in parsing info");
+			  e.printStackTrace();
+		  }
     }
 
     /**
