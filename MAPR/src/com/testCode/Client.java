@@ -1,4 +1,4 @@
-//package com.testCode;
+package com.testCode;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

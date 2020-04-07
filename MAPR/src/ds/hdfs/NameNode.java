@@ -101,8 +101,8 @@ public class NameNode implements INameNode{
 	}
 	
 	public static LinkedList<FileInfo> fileInfoList;
-	
-	/* Open a file given file name with read-write flag*/
+	/**
+	// Open a file given file name with read-write flag
 	boolean findInFilelist(int fhandle) {
 		// default until method is filled out
 		return false;
@@ -112,7 +112,7 @@ public class NameNode implements INameNode{
 	public void printFilelist() {
 		// default until method is filled out
 	}
-	
+	**/
 	// 1: The client creates a pipeline, after it has info in address info on the DataNode, to the DataNode and writes
 
 	public synchronized byte[] openFile(byte[] inp) throws RemoteException {

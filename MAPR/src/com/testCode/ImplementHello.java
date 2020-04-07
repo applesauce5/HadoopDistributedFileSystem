@@ -1,4 +1,4 @@
-//package com.testCode;
+package com.testCode;
 
 public class ImplementHello implements Hello {
 

@@ -1,12 +1,12 @@
-//package com.testCode;
+package com.testCode;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-        
-public class Server extends ImplementHello {
+import com.testCode.Hello;
+public class Server implements Hello {
         
     public Server() {}
 
@@ -14,7 +14,9 @@ public class Server extends ImplementHello {
 //		super();
 //		// TODO Auto-generated constructor stub
 //	}
-
+    public String sayHello() {
+        return "Hello, world!";
+    }
         
     public static void main(String args[]) {
     	System.setProperty("java.rmi.server.hostname","192.168.1.182");
@@ -24,7 +26,7 @@ public class Server extends ImplementHello {
 //        }
 //    	
         try {
-            ImplementHello obj = new ImplementHello();
+            Server obj = new Server();
             Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
 
             // Bind the remote object's stub in the registry
