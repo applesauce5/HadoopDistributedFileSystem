@@ -24,4 +24,4 @@ hs_err_pid*
 /bin/
 
 #intellij stuff
-.idea/encodings.xml
+*.idea/encodings.xml
