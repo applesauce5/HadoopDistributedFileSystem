@@ -1,4 +1,4 @@
-//Written By Shaleen Garg
+
 package ds.hdfs;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
