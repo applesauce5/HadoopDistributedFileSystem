@@ -57,7 +57,7 @@ public class DataNode implements IDataNode
 
     // gather corresponding blocks and persist into file??
     // ignore ---------------------------------------------Project 2
-  /**
+    /**
     public static void appendtoFile(String Filename, String Line)
     {
         BufferedWriter bw = null;
@@ -80,7 +80,7 @@ public class DataNode implements IDataNode
         }
 
     }
-**/
+    **/
     /**
      * --> Create and return a unique handle for each opened file. 
      * Get all block locations for the file 
@@ -168,6 +168,7 @@ public class DataNode implements IDataNode
     	 byte[] DataNodebyte = response.build().toByteArray();
     	 tmpNameNode.heartBeat(DataNodebyte);
     	 tmpNameNode.blockReport(DataNodebyte);
+    	 System.out.println("Block Report Sent");
     }
 
     // Socket programming
@@ -220,13 +221,21 @@ public class DataNode implements IDataNode
      * @throws InvalidProtocolBufferException
      * @throws IOException
      */
-    public static void main(String args[]) throws InvalidProtocolBufferException, IOException
-    {
+    public static void main(String args[]) throws InvalidProtocolBufferException, IOException, InterruptedException {
         // Define a Datanode Me
         DataNode Me = new DataNode("ls.cs.rutgers.edu",1099,"DataNode");  
-        /**
+
+        /*
          * Server code
          */
+        Me.BindServer(Me.MyName,Me.MyIP,Me.MyPort);
+        // Sending block report every 3 seconds
+        while(true) {
+            System.err.println("Sending Block Report");
+            Me.BlockReport();
+            TimeUnit.SECONDS.sleep(3);
+        }
+        /**
         System.setProperty("java.rmi.server.hostname","ls.cs.rutgers.edu");
   	
         try {
@@ -242,6 +251,6 @@ public class DataNode implements IDataNode
             System.err.println("Server exception: " + e.toString());
             e.printStackTrace();
         }
-     
+         **/
     }
 }
