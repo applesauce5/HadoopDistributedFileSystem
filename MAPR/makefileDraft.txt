@@ -1,0 +1,19 @@
+JFLAGS = -g
+JAVAC = javac
+.SUFFIXES: .java .class
+
+.java.class:
+	# javac -d classDir src/com/testCode/Hello.java src/com/testCode/Server.java src/com/testCode/Client.java
+	# java -classpath classDir -Djava.rmi.server.codebase=file:classDir/ com.testCode.Server
+	# java -classpath classDir com.testCode.Client
+	$(JC) $(JFLAGS) $*.java
+
+sourceFiles = \
+		  src/com/testCode/Hello.java \
+		  src/com/testCode/Server.java \
+		  src/com/testCode/Client.java
+default: classes
+classes: $(CLASSES:.java=.class)
+clean:
+	$(RM) *.class
+	

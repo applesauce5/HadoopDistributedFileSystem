@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.testCode.Hello;
-import com.testCode.ImplementHello;
+//import com.testCode.Hello;
+//import com.testCode.ImplementHello;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -27,14 +27,14 @@ import ds.hdfs.marshallstuff.*;
 
 /**
  * >>> Should be used for performing read and write operations of blocks. <<<
- * 
- * -> Design the message protocol using protobuf. That will help you in standardizing your work across functions and files. 
- * -> You should use a configuration file to help change different run-time parameters without recompiling the source. 
- * -> Block size: 64Bytes (should be configurable in your configuration file) [Mention its name it in your README] 
- * -> Block replication Factor: Two way. 
- * -> NN should print a warning message if some DN(s) are down (no heartbeats) and some file is not readable due to it. 
- * --->>> DNs should also support restart and all operations should be carried on ordinarily after NN server is up and running again.  
- * --->>> HDFS should persist its state even in the event of NN restart 
+ *
+ * -> Design the message protocol using protobuf. That will help you in standardizing your work across functions and files.
+ * -> You should use a configuration file to help change different run-time parameters without recompiling the source.
+ * -> Block size: 64Bytes (should be configurable in your configuration file) [Mention its name it in your README]
+ * -> Block replication Factor: Two way.
+ * -> NN should print a warning message if some DN(s) are down (no heartbeats) and some file is not readable due to it.
+ * --->>> DNs should also support restart and all operations should be carried on ordinarily after NN server is up and running again.
+ * --->>> HDFS should persist its state even in the event of NN restart
  * @author mcho5
  *
  */
@@ -65,13 +65,13 @@ public class DataNode implements IDataNode
         try {
         	//implement here
             //append
-        } 
-        catch (IOException ioe) 
+        }
+        catch (IOException ioe)
         {
             ioe.printStackTrace();
-        } 
-        finally 
-        {                       
+        }
+        finally
+        {
         	// always close the file
             if (bw != null) try {
                 bw.close();
@@ -82,35 +82,35 @@ public class DataNode implements IDataNode
     }
     **/
     /**
-     * --> Create and return a unique handle for each opened file. 
-     * Get all block locations for the file 
-     * Read blocks in sequence Workflow: 
-     * 	openFile(“filename”) 
-     * 		in a loop:  
-     * 			getBlockLocations() using handle from openFile  
-     * 			Obtain a reference to the remote DN object using an entry in the DataNode location.  
-     * 			Issue readBlock() to the DN (if this fails, try the next DN)  
-     * 			Write to the local file. 
+     * --> Create and return a unique handle for each opened file.
+     * Get all block locations for the file
+     * Read blocks in sequence Workflow:
+     * 	openFile("filename")
+     * 		in a loop:
+     * 			getBlockLocations() using handle from openFile
+     * 			Obtain a reference to the remote DN object using an entry in the DataNode location.
+     * 			Issue readBlock() to the DN (if this fails, try the next DN)
+     * 			Write to the local file.
      * 	closeFile()
      */
     public synchronized byte[] readBlock(byte[] Inp) {
-    	
+
     	chunkInfo.Builder newRes = chunkInfo.newBuilder();
     	try {
     		chunkInfo input = chunkInfo.parseFrom(Inp);
         	String filename = input.getFilename();
-        	
+
         	File file = new File(filename);
-        	byte[] bytesArray = new byte[(int) file.length()]; 
+        	byte[] bytesArray = new byte[(int) file.length()];
     	    FileInputStream fis = new FileInputStream(file);
     	    fis.read(bytesArray); //read file into bytes[]
     	    fis.close();
-    	    
+
         	ByteString bytstrfile = ByteString.copyFrom(bytesArray);
-        	
+
         	newRes.setFilename(filename);
         	newRes.setFileData(bytstrfile);
-        	
+
         }
         catch(Exception e)
         {
@@ -122,14 +122,14 @@ public class DataNode implements IDataNode
     }
 
    /**
-    * --> Create and return a unique handle for each opened file. 
-    * Write contents to the assigned block number 
-    * Workflow: 
-    * 	openFile(“filename”, ‘r’): (throw error if the filename already exists) 
-    * 		in a loop: 
-    * 			1. Call assignBlock() using handle from openFile 
-    * 			2. Obtain a reference to the remote DataNode object using the first entry in the DataNode location 
-	* 			3. Call writeBlock() on all the assigned DataNodes 
+    * --> Create and return a unique handle for each opened file.
+    * Write contents to the assigned block number
+    * Workflow:
+    * 	openFile("filename", 'r'): (throw error if the filename already exists)
+    * 		in a loop:
+    * 			1. Call assignBlock() using handle from openFile
+    * 			2. Obtain a reference to the remote DataNode object using the first entry in the DataNode location
+	* 			3. Call writeBlock() on all the assigned DataNodes
 	* 	closeFile()
     */
     public synchronized byte[] writeBlock(byte[] Inp) {
@@ -138,12 +138,12 @@ public class DataNode implements IDataNode
         	// implement
         	chunkInfo input = chunkInfo.parseFrom(Inp);
         	String filename = input.getFilename();
-        	
+
         	File file = new File(filename);
         	ByteString store = input.getFileData();
-        	
+
         	store.writeTo(new FileOutputStream(file)); // block is written into the file
-        	
+
         }
         catch(Exception e)
         {
@@ -164,7 +164,7 @@ public class DataNode implements IDataNode
     	 response.setIp(this.MyIP);
     	 response.setPort(this.MyPort);
     	 response.setServerName(this.MyName);
-    	 
+
     	 byte[] DataNodebyte = response.build().toByteArray();
     	 tmpNameNode.heartBeat(DataNodebyte);
     	 tmpNameNode.blockReport(DataNodebyte);
@@ -208,26 +208,28 @@ public class DataNode implements IDataNode
     }
 
     /**
-     * -> Clients and DN discover the NN from a conf file and 
+     * -> Clients and DN discover the NN from a conf file and
      * read from a standardized location (/tmp/somefile).
-     *  
+     *
      * -> DataNode needs to find corresponding NameNode once it has been assigned
-     * 
+     *
      * -> heartbeats are sent to the NameNode
-     * 
-     * -> The conf file contains the socket information of the NN (port number). 
-     * 
+     *
+     * -> The conf file contains the socket information of the NN (port number).
+     *
      * @param args
      * @throws InvalidProtocolBufferException
      * @throws IOException
      */
     public static void main(String args[]) throws InvalidProtocolBufferException, IOException, InterruptedException {
         // Define a Datanode Me
-        DataNode Me = new DataNode("ls.cs.rutgers.edu",1099,"DataNode");  
+    
+        DataNode Me = new DataNode("ls.cs.rutgers.edu",1099,"DataNode");
 
         /*
          * Server code
          */
+
         Me.BindServer(Me.MyName,Me.MyIP,Me.MyPort);
         // Sending block report every 3 seconds
         while(true) {
@@ -237,7 +239,7 @@ public class DataNode implements IDataNode
         }
         /**
         System.setProperty("java.rmi.server.hostname","ls.cs.rutgers.edu");
-  	
+
         try {
             IDataNode stub = (IDataNode) UnicastRemoteObject.exportObject(Me, 0);
             Registry registry = LocateRegistry.getRegistry();

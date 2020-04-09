@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.testCode.Hello;
-import com.testCode.ImplementHello;
+//import com.testCode.Hello;
+//import com.testCode.ImplementHello;
 import com.google.protobuf.*;
 
 //import ds.hdfs.hdfsformat.*;
