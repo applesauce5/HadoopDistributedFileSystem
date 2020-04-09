@@ -7,8 +7,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import com.testCode.Hello;
 public class Server implements Hello {
-        
-    public Server() {}
+
+    public Server() {
+      //System.setProperty("java.security.policy","test.policy");
+    //  System.setProperty("java.rmi.server.hostname","128.6.13.171");
+      System.setProperty("java.rmi.server.hostname","ls.cs.rutgers.edu");
+    }
 
 //    protected Server() throws RemoteException {
 //		super();
@@ -17,24 +21,22 @@ public class Server implements Hello {
     public String sayHello() {
         return "Hello, world!";
     }
-        
+
     public static void main(String args[]) {
-    	System.setProperty("java.rmi.server.hostname","192.168.1.182");
-//    	System.setProperty("java.security.policy","test.policy");
-//    	if (System.getSecurityManager() == null) {
-//            System.setSecurityManager(new SecurityManager());
-//        }
-//    	
+
+
+
         try {
             Server obj = new Server();
             Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
 
             // Bind the remote object's stub in the registry
-              Registry registry = LocateRegistry.getRegistry();
+              Registry registry = LocateRegistry.createRegistry(2002);
             //Naming.lookup("rmi://localhost:1099/Server");
            // Naming.rebind("HelloServer", obj);
-              registry.bind("Hello", stub);
 
+              registry.rebind("Hello", stub);
+            //registry.rebind("Hello",stub);
             System.err.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());

@@ -11,7 +11,7 @@ public class Client {
 
         String host = (args.length < 1) ? null : args[0];
         try {
-            Registry registry = LocateRegistry.getRegistry(host);
+            Registry registry = LocateRegistry.getRegistry("ls.cs.rutgers.edu",2002);
             Hello stub = (Hello) registry.lookup("Hello");
             String response = stub.sayHello();
             System.out.println("response: " + response);
