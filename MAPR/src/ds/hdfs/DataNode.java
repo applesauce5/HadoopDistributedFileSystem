@@ -178,7 +178,7 @@ public class DataNode implements IDataNode
         {
             IDataNode stub = (IDataNode) UnicastRemoteObject.exportObject(this, 0);
             System.setProperty("java.rmi.server.hostname", IP);
-            Registry registry = LocateRegistry.getRegistry(Port);
+            Registry registry = LocateRegistry.createRegistry(Port);
             registry.rebind(Name, stub);
             System.out.println("\nDataNode connected to RMIregistry\n");
         }catch(Exception e){
@@ -223,8 +223,8 @@ public class DataNode implements IDataNode
      */
     public static void main(String args[]) throws InvalidProtocolBufferException, IOException, InterruptedException {
         // Define a Datanode Me
-    
-        DataNode Me = new DataNode("ls.cs.rutgers.edu",1099,"DataNode");
+
+        DataNode Me = new DataNode("ls.cs.rutgers.edu",2002,"DataNode");
 
         /*
          * Server code
