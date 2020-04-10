@@ -1389,30 +1389,25 @@ public final class marshallstuff {
   public interface IPListOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .hdfs.IP address = 1;
+    // repeated string address = 1;
     /**
-     * <code>repeated .hdfs.IP address = 1;</code>
+     * <code>repeated string address = 1;</code>
      */
-    java.util.List<ds.hdfs.marshallstuff.IP> 
-        getAddressList();
+    java.util.List<java.lang.String>
+    getAddressList();
     /**
-     * <code>repeated .hdfs.IP address = 1;</code>
-     */
-    ds.hdfs.marshallstuff.IP getAddress(int index);
-    /**
-     * <code>repeated .hdfs.IP address = 1;</code>
+     * <code>repeated string address = 1;</code>
      */
     int getAddressCount();
     /**
-     * <code>repeated .hdfs.IP address = 1;</code>
+     * <code>repeated string address = 1;</code>
      */
-    java.util.List<? extends ds.hdfs.marshallstuff.IPOrBuilder> 
-        getAddressOrBuilderList();
+    java.lang.String getAddress(int index);
     /**
-     * <code>repeated .hdfs.IP address = 1;</code>
+     * <code>repeated string address = 1;</code>
      */
-    ds.hdfs.marshallstuff.IPOrBuilder getAddressOrBuilder(
-        int index);
+    com.google.protobuf.ByteString
+        getAddressBytes(int index);
   }
   /**
    * Protobuf type {@code hdfs.IPList}
@@ -1467,10 +1462,10 @@ public final class marshallstuff {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                address_ = new java.util.ArrayList<ds.hdfs.marshallstuff.IP>();
+                address_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              address_.add(input.readMessage(ds.hdfs.marshallstuff.IP.PARSER, extensionRegistry));
+              address_.add(input.readBytes());
               break;
             }
           }
@@ -1482,7 +1477,7 @@ public final class marshallstuff {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          address_ = java.util.Collections.unmodifiableList(address_);
+          address_ = new com.google.protobuf.UnmodifiableLazyStringList(address_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1515,44 +1510,38 @@ public final class marshallstuff {
       return PARSER;
     }
 
-    // repeated .hdfs.IP address = 1;
+    // repeated string address = 1;
     public static final int ADDRESS_FIELD_NUMBER = 1;
-    private java.util.List<ds.hdfs.marshallstuff.IP> address_;
+    private com.google.protobuf.LazyStringList address_;
     /**
-     * <code>repeated .hdfs.IP address = 1;</code>
+     * <code>repeated string address = 1;</code>
      */
-    public java.util.List<ds.hdfs.marshallstuff.IP> getAddressList() {
+    public java.util.List<java.lang.String>
+        getAddressList() {
       return address_;
     }
     /**
-     * <code>repeated .hdfs.IP address = 1;</code>
-     */
-    public java.util.List<? extends ds.hdfs.marshallstuff.IPOrBuilder> 
-        getAddressOrBuilderList() {
-      return address_;
-    }
-    /**
-     * <code>repeated .hdfs.IP address = 1;</code>
+     * <code>repeated string address = 1;</code>
      */
     public int getAddressCount() {
       return address_.size();
     }
     /**
-     * <code>repeated .hdfs.IP address = 1;</code>
+     * <code>repeated string address = 1;</code>
      */
-    public ds.hdfs.marshallstuff.IP getAddress(int index) {
+    public java.lang.String getAddress(int index) {
       return address_.get(index);
     }
     /**
-     * <code>repeated .hdfs.IP address = 1;</code>
+     * <code>repeated string address = 1;</code>
      */
-    public ds.hdfs.marshallstuff.IPOrBuilder getAddressOrBuilder(
-        int index) {
-      return address_.get(index);
+    public com.google.protobuf.ByteString
+        getAddressBytes(int index) {
+      return address_.getByteString(index);
     }
 
     private void initFields() {
-      address_ = java.util.Collections.emptyList();
+      address_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1567,7 +1556,7 @@ public final class marshallstuff {
                         throws java.io.IOException {
       getSerializedSize();
       for (int i = 0; i < address_.size(); i++) {
-        output.writeMessage(1, address_.get(i));
+        output.writeBytes(1, address_.getByteString(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1578,9 +1567,14 @@ public final class marshallstuff {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < address_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, address_.get(i));
+      {
+        int dataSize = 0;
+        for (int i = 0; i < address_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(address_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getAddressList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1690,7 +1684,6 @@ public final class marshallstuff {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getAddressFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1699,12 +1692,8 @@ public final class marshallstuff {
 
       public Builder clear() {
         super.clear();
-        if (addressBuilder_ == null) {
-          address_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          addressBuilder_.clear();
-        }
+        address_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -1732,15 +1721,12 @@ public final class marshallstuff {
       public ds.hdfs.marshallstuff.IPList buildPartial() {
         ds.hdfs.marshallstuff.IPList result = new ds.hdfs.marshallstuff.IPList(this);
         int from_bitField0_ = bitField0_;
-        if (addressBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            address_ = java.util.Collections.unmodifiableList(address_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.address_ = address_;
-        } else {
-          result.address_ = addressBuilder_.build();
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          address_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              address_);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
+        result.address_ = address_;
         onBuilt();
         return result;
       }
@@ -1756,31 +1742,15 @@ public final class marshallstuff {
 
       public Builder mergeFrom(ds.hdfs.marshallstuff.IPList other) {
         if (other == ds.hdfs.marshallstuff.IPList.getDefaultInstance()) return this;
-        if (addressBuilder_ == null) {
-          if (!other.address_.isEmpty()) {
-            if (address_.isEmpty()) {
-              address_ = other.address_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureAddressIsMutable();
-              address_.addAll(other.address_);
-            }
-            onChanged();
+        if (!other.address_.isEmpty()) {
+          if (address_.isEmpty()) {
+            address_ = other.address_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureAddressIsMutable();
+            address_.addAll(other.address_);
           }
-        } else {
-          if (!other.address_.isEmpty()) {
-            if (addressBuilder_.isEmpty()) {
-              addressBuilder_.dispose();
-              addressBuilder_ = null;
-              address_ = other.address_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              addressBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getAddressFieldBuilder() : null;
-            } else {
-              addressBuilder_.addAllMessages(other.address_);
-            }
-          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1809,244 +1779,97 @@ public final class marshallstuff {
       }
       private int bitField0_;
 
-      // repeated .hdfs.IP address = 1;
-      private java.util.List<ds.hdfs.marshallstuff.IP> address_ =
-        java.util.Collections.emptyList();
+      // repeated string address = 1;
+      private com.google.protobuf.LazyStringList address_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureAddressIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          address_ = new java.util.ArrayList<ds.hdfs.marshallstuff.IP>(address_);
+          address_ = new com.google.protobuf.LazyStringArrayList(address_);
           bitField0_ |= 0x00000001;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          ds.hdfs.marshallstuff.IP, ds.hdfs.marshallstuff.IP.Builder, ds.hdfs.marshallstuff.IPOrBuilder> addressBuilder_;
-
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
-      public java.util.List<ds.hdfs.marshallstuff.IP> getAddressList() {
-        if (addressBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(address_);
-        } else {
-          return addressBuilder_.getMessageList();
-        }
+      public java.util.List<java.lang.String>
+          getAddressList() {
+        return java.util.Collections.unmodifiableList(address_);
       }
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
       public int getAddressCount() {
-        if (addressBuilder_ == null) {
-          return address_.size();
-        } else {
-          return addressBuilder_.getCount();
-        }
+        return address_.size();
       }
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
-      public ds.hdfs.marshallstuff.IP getAddress(int index) {
-        if (addressBuilder_ == null) {
-          return address_.get(index);
-        } else {
-          return addressBuilder_.getMessage(index);
-        }
+      public java.lang.String getAddress(int index) {
+        return address_.get(index);
       }
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
-      public Builder setAddress(
-          int index, ds.hdfs.marshallstuff.IP value) {
-        if (addressBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAddressIsMutable();
-          address_.set(index, value);
-          onChanged();
-        } else {
-          addressBuilder_.setMessage(index, value);
-        }
-        return this;
+      public com.google.protobuf.ByteString
+          getAddressBytes(int index) {
+        return address_.getByteString(index);
       }
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
       public Builder setAddress(
-          int index, ds.hdfs.marshallstuff.IP.Builder builderForValue) {
-        if (addressBuilder_ == null) {
-          ensureAddressIsMutable();
-          address_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          addressBuilder_.setMessage(index, builderForValue.build());
-        }
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureAddressIsMutable();
+        address_.set(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public Builder addAddress(ds.hdfs.marshallstuff.IP value) {
-        if (addressBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAddressIsMutable();
-          address_.add(value);
-          onChanged();
-        } else {
-          addressBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
       public Builder addAddress(
-          int index, ds.hdfs.marshallstuff.IP value) {
-        if (addressBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAddressIsMutable();
-          address_.add(index, value);
-          onChanged();
-        } else {
-          addressBuilder_.addMessage(index, value);
-        }
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureAddressIsMutable();
+        address_.add(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public Builder addAddress(
-          ds.hdfs.marshallstuff.IP.Builder builderForValue) {
-        if (addressBuilder_ == null) {
-          ensureAddressIsMutable();
-          address_.add(builderForValue.build());
-          onChanged();
-        } else {
-          addressBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public Builder addAddress(
-          int index, ds.hdfs.marshallstuff.IP.Builder builderForValue) {
-        if (addressBuilder_ == null) {
-          ensureAddressIsMutable();
-          address_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          addressBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
       public Builder addAllAddress(
-          java.lang.Iterable<? extends ds.hdfs.marshallstuff.IP> values) {
-        if (addressBuilder_ == null) {
-          ensureAddressIsMutable();
-          super.addAll(values, address_);
-          onChanged();
-        } else {
-          addressBuilder_.addAllMessages(values);
-        }
+          java.lang.Iterable<java.lang.String> values) {
+        ensureAddressIsMutable();
+        super.addAll(values, address_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
       public Builder clearAddress() {
-        if (addressBuilder_ == null) {
-          address_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          addressBuilder_.clear();
-        }
+        address_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .hdfs.IP address = 1;</code>
+       * <code>repeated string address = 1;</code>
        */
-      public Builder removeAddress(int index) {
-        if (addressBuilder_ == null) {
-          ensureAddressIsMutable();
-          address_.remove(index);
-          onChanged();
-        } else {
-          addressBuilder_.remove(index);
-        }
+      public Builder addAddressBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureAddressIsMutable();
+        address_.add(value);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public ds.hdfs.marshallstuff.IP.Builder getAddressBuilder(
-          int index) {
-        return getAddressFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public ds.hdfs.marshallstuff.IPOrBuilder getAddressOrBuilder(
-          int index) {
-        if (addressBuilder_ == null) {
-          return address_.get(index);  } else {
-          return addressBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public java.util.List<? extends ds.hdfs.marshallstuff.IPOrBuilder> 
-           getAddressOrBuilderList() {
-        if (addressBuilder_ != null) {
-          return addressBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(address_);
-        }
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public ds.hdfs.marshallstuff.IP.Builder addAddressBuilder() {
-        return getAddressFieldBuilder().addBuilder(
-            ds.hdfs.marshallstuff.IP.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public ds.hdfs.marshallstuff.IP.Builder addAddressBuilder(
-          int index) {
-        return getAddressFieldBuilder().addBuilder(
-            index, ds.hdfs.marshallstuff.IP.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .hdfs.IP address = 1;</code>
-       */
-      public java.util.List<ds.hdfs.marshallstuff.IP.Builder> 
-           getAddressBuilderList() {
-        return getAddressFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          ds.hdfs.marshallstuff.IP, ds.hdfs.marshallstuff.IP.Builder, ds.hdfs.marshallstuff.IPOrBuilder> 
-          getAddressFieldBuilder() {
-        if (addressBuilder_ == null) {
-          addressBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              ds.hdfs.marshallstuff.IP, ds.hdfs.marshallstuff.IP.Builder, ds.hdfs.marshallstuff.IPOrBuilder>(
-                  address_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          address_ = null;
-        }
-        return addressBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:hdfs.IPList)
@@ -3886,12 +3709,12 @@ public final class marshallstuff {
       "\n\nhdfs.proto\022\004hdfs\"k\n\010FileInfo\022\020\n\010filena" +
       "me\030\001 \001(\t\022\022\n\nfilehandle\030\002 \001(\r\022\021\n\twritemod" +
       "e\030\003 \001(\010\022\023\n\013replication\030\004 \001(\r\022\021\n\tchunkLis" +
-      "t\030\005 \003(\t\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"#\n\006IPList\022\031\n\007a" +
-      "ddress\030\001 \003(\0132\010.hdfs.IP\"/\n\tchunkInfo\022\020\n\010f" +
-      "ileData\030\001 \001(\014\022\020\n\010filename\030\002 \001(\t\"<\n\014DataN" +
-      "odeInfo\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\022\022\n\nser" +
-      "verName\030\003 \001(\t\"\035\n\tNameSpace\022\020\n\010filename\030\001" +
-      " \003(\tB\030\n\007ds.hdfsB\rmarshallstuff"
+      "t\030\005 \003(\t\"\020\n\002IP\022\n\n\002ip\030\001 \001(\t\"\031\n\006IPList\022\017\n\007a" +
+      "ddress\030\001 \003(\t\"/\n\tchunkInfo\022\020\n\010fileData\030\001 " +
+      "\001(\014\022\020\n\010filename\030\002 \001(\t\"<\n\014DataNodeInfo\022\n\n" +
+      "\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\022\022\n\nserverName\030\003 " +
+      "\001(\t\"\035\n\tNameSpace\022\020\n\010filename\030\001 \003(\tB\030\n\007ds" +
+      ".hdfsB\rmarshallstuff"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

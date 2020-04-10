@@ -139,7 +139,7 @@ public class NameNode implements INameNode{
 					// File is ready to be used by thread
 					FileInfo newFile = new FileInfo(Inp.getFilename(),Inp.getFilehandle(),false,Inp.getReplication());
 					fileInfoList.add(newFile); // added to list of files in hdfs
-					
+
 					System.out.println("File is a file and exists");
 					response.setWritemode(false); // this thread has prioty over this file now, only set to true once blocks are persisted
 					response.setFilename(Inp.getFilename());
@@ -238,13 +238,16 @@ public class NameNode implements INameNode{
 		return response.build().toByteArray();
 	}
 
-	// you have a large file ----------> break file up into possibly a list of blocks
+
 	public synchronized byte[] assignBlock(byte[] inp ) throws RemoteException{
 		ds.hdfs.marshallstuff.FileInfo.Builder newFInfo = ds.hdfs.marshallstuff.FileInfo.newBuilder();
+		//IPList ipInfo = IPList.newBuilder();
 		try {
 			ds.hdfs.marshallstuff.FileInfo Inp = ds.hdfs.marshallstuff.FileInfo.parseFrom(inp);
-			int chunksNeeded = Inp.getReplication();
-			newFInfo.setReplication(chunksNeeded);
+
+			int repFactor = Inp.getReplication();
+
+			newFInfo.setReplication(Inp.getReplication());
 			newFInfo.setFilename(Inp.getFilename());
 			newFInfo.setFilehandle(Inp.getFilehandle());
 			newFInfo.setWritemode(Inp.getWritemode());
@@ -252,11 +255,25 @@ public class NameNode implements INameNode{
 			if(dataNodeList.size() == 0) {
 				System.out.println("No Data Nodes available");
 			} else {
-				int i = 0;
-				while(i < dataNodeList.size() && chunksNeeded > 0) {
-					newFInfo.addChunkList(dataNodeList.get(i).ip);  // assigning IP's
-					chunksNeeded--;
-					i++;
+				ArrayList<String> list = (ArrayList<String>) Inp.getChunkListList();
+				for(int j = 0; j<list.size(); j++){
+					int i = 0;
+					String chunkInfoBuild = new StringBuilder();
+					chunkInfoBuild.append(list.get(j));
+					while((i < dataNodeList.size()) && (repFactor > 0)) {
+						DataNode chosen = dataNodeList.get(i);
+						chunkInfoBuild.append(","+chosen.ip);
+						repFactor--;
+						i++;
+					}
+					chunkInfoBuild.build();// finished assigning ip to chunks
+					for(FileInfo file: fileInfoList){
+						if(file.filename.equals(Inp.getFilename())){
+							file.Chunks.add(chunkInfoBuild);
+						}
+					}
+					// Adding final info into response
+					newFInfo.addChunkList(chunkInfoBuild);  // assigning IP's to the chunks
 				}
 			}
 		}

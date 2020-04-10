@@ -24,6 +24,7 @@ import java.nio.charset.Charset;
 import ds.hdfs.IDataNode.*;
 
 import ds.hdfs.marshallstuff.*;
+import ds.hdfs.marshallstuff.chunkInfo;
 
 /**
  * >>> Should be used for performing read and write operations of blocks. <<<
@@ -97,7 +98,7 @@ public class DataNode implements IDataNode
 
     	chunkInfo.Builder newRes = chunkInfo.newBuilder();
     	try {
-    		chunkInfo input = chunkInfo.parseFrom(Inp);
+    		  chunkInfo input = chunkInfo.parseFrom(Inp);
         	String filename = input.getFilename();
 
         	File file = new File("/DataNodeChunks/"+filename);

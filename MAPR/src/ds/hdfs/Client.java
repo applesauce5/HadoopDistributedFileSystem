@@ -108,51 +108,59 @@ public class Client
         	 * Sending to NameNode
         	 */
         	byte[] input = tmpNameNode.openFile(inputInit); // opened the file, received protobuf object
-          if(openInfo.getWritemode() == false){
+          FileInfo openFlResponse = FileInfo.parseFrom(input);
+          if(openFlResponse.getWritemode == false){
             System.out.println("Cannot access file now");
             return; // writemode was equal false
           }
-        	/**
-        	 * Sending to NameNode to assign blocks for a particular file
-        	 */
-        	byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned, protobuf object received --> stored in Chunks data structure
 
-        	// extract ip addresses here
-        	FileInfo msgResponse = FileInfo.parseFrom(blkLocations);
-            ArrayList<String> list = (ArrayList<String>) msgResponse.getChunkListList();
+          // Now have a list of chunknames to pass onto NameNode
+          for(int i = 0; i< chunkFiles.size(); i++){
+            String chunkName = i+Filename;
+            openFlResponse.addChunkList(chunkName);
+          }
+          // Sending to NameNode to assign blocks for a particular file
+          byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned, protobuf object received --> stored in Chunks data structure
 
-            for(int i = 0; i < list.size(); i++) {
-            	for(File j : chunkFiles) {
-	            	IDataNode tmpDataNode = GetDNStub("DataNode",list.get(i),2002); // (name, ip, port)
+          // extract ip addresses here
+          FileInfo msgResponse = FileInfo.parseFrom(blkLocations);
 
-	            	chunkInfo.Builder newchunk = chunkInfo.newBuilder();
-	            	newchunk.setFilename(i + Filename);
+          ArrayList<String> list = (ArrayList<String>) msgResponse.getChunkListList();
 
-	            	// File --> byte[]
-	            	byte[] chunk = new byte[(int) j.length()];
-	            	FileInputStream fis = new FileInputStream(j);
-	            	fis.read(chunk);
-	            	fis.close();
-	            	newchunk.setFileData(ByteString.copyFrom(chunk)); // File --> byte[] --> ByteString
+          // Going through each chunk from large file
+          for(int i = 0; i < list.size(); i++) {
+              String[] splitPhrase = list.get(i).split(",",-1);
+              String chunkName = splitPhrase[0];
+              // distribute chunk replicas among given DataNodes
+              for(int k = 1; k < splitPhrase.length;k++){
+              	IDataNode tmpDataNode = GetDNStub("DataNode",splitPhrase[k],2002); // (name, ip, port)
 
-	            	byte[] insertchunk = newchunk.build().toByteArray();
+              	chunkInfo.Builder newchunk = chunkInfo.newBuilder();
+              	newchunk.setFilename(chunkName);
 
-	            	/**
-	            	 * Sending to DataNode
-	            	 * -> passing in by chunk by chunk to the DataNodes	to the ip addresses given
-	            	 */
-	            	tmpDataNode.writeBlock(insertchunk); //
-            	}
-            }
-            /**
-             * Finally close the file
-             */
-            byte[] doneWrite = tmpNameNode.closeFile(input);
-            FileInfo resWrite = FileInfo.parseFrom(doneWrite);
-            if(!(resWrite.getWritemode)){
-              System.out.println("Error closing file; Error persisting file");
-              return;
-            }
+              	// File --> byte[]
+              	byte[] chunk = new byte[(int) chunkFiles.get(i).length()];
+              	FileInputStream fis = new FileInputStream(chunkFiles.get(i));
+              	fis.read(chunk);
+              	fis.close();
+              	newchunk.setFileData(ByteString.copyFrom(chunk)); // File --> byte[] --> ByteString
+
+              	byte[] insertchunk = newchunk.build().toByteArray();
+              	 // Sending to DataNode
+              	 // -> passing in by chunk by chunk to the DataNodes	to the ip addresses given
+              	tmpDataNode.writeBlock(insertchunk); //
+              }
+          }
+
+          /**
+           * Finally close the file
+           */
+          byte[] doneWrite = tmpNameNode.closeFile(input);
+          FileInfo resWrite = FileInfo.parseFrom(doneWrite);
+          if(!(resWrite.getWritemode)){
+            System.out.println("Error closing file; Error persisting file");
+            return;
+          }
             // Done with writing chunks to their respective DataNodes
         }catch(Exception e){
             System.out.println("File not found !!!");

@@ -1,7 +1,7 @@
 package hdfs;
-// All the parameters and return objects should be 
-// marshalled and unmarshalled from byte arrays 
-// (Using Google Protocol Buffers) 
+// All the parameters and return objects should be
+// marshalled and unmarshalled from byte arrays
+// (Using Google Protocol Buffers)
 
 option java_package = "ds.hdfs";
 option java_outer_classname = "marshallstuff";
@@ -13,7 +13,7 @@ message FileInfo {
 	optional uint32 filehandle = 2;
 	optional bool writemode = 3;
 	optional uint32 replication = 4;
-	repeated string chunkList = 5; 
+	repeated string chunkList = 5;
 
 }
 
@@ -23,7 +23,7 @@ message IP {
 }
 
 message IPList {
-	repeated IP address = 1;
+	repeated string address = 1;
 }
 
 // Part 3 chunks
@@ -44,4 +44,3 @@ message DataNodeInfo {
 message NameSpace {
 	repeated string filename = 1;
 }
-
