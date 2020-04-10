@@ -15,7 +15,7 @@ import com.google.protobuf.Parser;
 //import ds.hdfs.INameNode;
 
 import ds.hdfs.marshallstuff.*;
-
+import ds.hdfs.marshallstuff.FileInfo;
 /**
  * -> Design the message protocol using protobuf. That will help you in standardizing your work across functions and files.
  * @author mcho5
@@ -108,8 +108,15 @@ public class Client
         	 * Sending to NameNode
         	 */
         	byte[] input = tmpNameNode.openFile(inputInit); // opened the file, received protobuf object
-          FileInfo openFlResponse = FileInfo.parseFrom(input);
-          if(openFlResponse.getWritemode == false){
+          FileInfo in = FileInfo.parseFrom(input);
+          FileInfo.Builder openFlResponse = FileInfo.newBuilder();
+          openFlResponse.setFilename(in.getFilename());
+          openFlResponse.setFilehandle(in.getFilehandle());
+          openFlResponse.setWritemode(in.getWritemode());
+          openFlResponse.setReplication(in.getReplication());
+          openFlResponse.addAllChunkList(in.getChunkListList());
+
+          if(openFlResponse.getWritemode() == false){
             System.out.println("Cannot access file now");
             return; // writemode was equal false
           }
@@ -157,7 +164,7 @@ public class Client
            */
           byte[] doneWrite = tmpNameNode.closeFile(input);
           FileInfo resWrite = FileInfo.parseFrom(doneWrite);
-          if(!(resWrite.getWritemode)){
+          if(!(resWrite.getWritemode())){
             System.out.println("Error closing file; Error persisting file");
             return;
           }
@@ -205,7 +212,7 @@ public class Client
           String[] splitPhrase = list.get(i).split(",",-1);
           String chunkName = splitPhrase[0];
 
-    		  IDataNode tmpDataNode = GetDNStub("DataNode", splitPhrase[1],2002);
+    		  IDataNode tmpDataNode = GetDNStub("DataNode", splitPhrase[1],2002); // So far, can only handle reading from the same DataNode
 
           chunkInfo.Builder newchunk = chunkInfo.newBuilder();
         	newchunk.setFilename(chunkName);

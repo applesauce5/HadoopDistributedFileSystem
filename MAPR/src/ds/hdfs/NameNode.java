@@ -129,7 +129,7 @@ public class NameNode implements INameNode{
 				if(Inp.getFilehandle() == 1){ // write protocol
 					if(fileInfoList.size() != 0){
 						for(FileInfo i : fileInfoList){
-							if((i.filename.equals(Inp.getFileName)) && !(i.writemode)){ // file is already in hdfs and is not ready to be opened
+							if( (i.filename.equals(Inp.getFilename())) && !(i.writemode) ){ // file is already in hdfs and is not ready to be opened
 								System.out.println("File cannot be opened");
 								response.setWritemode(false);
 								return response.build().toByteArray(); // send response back to client, not successful
@@ -155,7 +155,7 @@ public class NameNode implements INameNode{
 						return response.build().toByteArray(); // send response back to client, not successful
 					}
 					for(FileInfo i : fileInfoList){
-						if((i.filename.equals(Inp.getFileName)) && i.writemode){ // file is already in hdfs and is ready to be opened
+						if((i.filename.equals(Inp.getFilename())) && i.writemode){ // file is already in hdfs and is ready to be opened
 							response.setFilename(i.filename);
 							response.setFilehandle(i.filehandle);
 							response.setWritemode(i.writemode);
@@ -192,7 +192,7 @@ public class NameNode implements INameNode{
 				return response.build().toByteArray();
 			}
 			for(FileInfo i : fileInfoList){
-				if((i.filename.equals(Inp.getFileName)) && !(i.writemode)){ // file is already in hdfs and is not ready to be opened
+				if((i.filename.equals(Inp.getFilename())) && !(i.writemode)){ // file is already in hdfs and is not ready to be opened
 					i.writemode = true;
 					response.setWritemode(true);
 					response.build().toByteArray(); // send response back to client, not successful
@@ -258,7 +258,7 @@ public class NameNode implements INameNode{
 				ArrayList<String> list = (ArrayList<String>) Inp.getChunkListList();
 				for(int j = 0; j<list.size(); j++){
 					int i = 0;
-					String chunkInfoBuild = new StringBuilder();
+					StringBuilder chunkInfoBuild = new StringBuilder(200);
 					chunkInfoBuild.append(list.get(j));
 					while((i < dataNodeList.size()) && (repFactor > 0)) {
 						DataNode chosen = dataNodeList.get(i);
@@ -266,14 +266,14 @@ public class NameNode implements INameNode{
 						repFactor--;
 						i++;
 					}
-					chunkInfoBuild.build();// finished assigning ip to chunks
+					String IpMeta = chunkInfoBuild.toString();// finished assigning ip to chunks
 					for(FileInfo file: fileInfoList){
 						if(file.filename.equals(Inp.getFilename())){
-							file.Chunks.add(chunkInfoBuild);
+							file.Chunks.add(IpMeta);
 						}
 					}
 					// Adding final info into response
-					newFInfo.addChunkList(chunkInfoBuild);  // assigning IP's to the chunks
+					newFInfo.addChunkList(IpMeta);  // assigning IP's to the chunks
 				}
 			}
 		}
