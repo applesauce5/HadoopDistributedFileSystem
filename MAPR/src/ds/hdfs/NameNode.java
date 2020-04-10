@@ -116,24 +116,58 @@ public class NameNode implements INameNode{
 	public synchronized byte[] openFile(byte[] inp) throws RemoteException {
 		// maybe input stream output stream related
 		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder();
+
 		try{
 			//implement
 			ds.hdfs.marshallstuff.FileInfo Inp = ds.hdfs.marshallstuff.FileInfo.parseFrom(inp);
-			File file = new File(Inp.getFilename());
+	/**		File file = new File(Inp.getFilename());
 			boolean exists = file.exists();
 
+			// If the file exists at all in the Name Node server's file system
 			if(file.exists() && file.isFile()) {
-				System.out.println("File is a file and exists");
-				response.setWritemode(true);
-				response.setFilename(Inp.getFilename());
-				response.setFilehandle(Inp.getFilehandle());
-				response.setReplication(Inp.getReplication());
-				for(String i : Inp.getChunkListList()) {
-					response.addChunkList(i);
+**/
+				if(Inp.getFilehandle() == 1){ // write protocol
+					if(fileInfoList.size() != 0){
+						for(FileInfo i : fileInfoList){
+							if((i.filename.equals(Inp.getFileName)) && !(i.writemode)){ // file is already in hdfs and is not ready to be opened
+								System.out.println("File cannot be opened");
+								response.setWritemode(false);
+								return response.build().toByteArray(); // send response back to client, not successful
+							}
+						}
+					}
+					// File is ready to be used by thread
+					FileInfo newFile = new FileInfo(Inp.getFilename(),Inp.getFilehandle(),false,Inp.getReplication());
+					fileInfoList.add(newFile); // added to list of files in hdfs
+					
+					System.out.println("File is a file and exists");
+					response.setWritemode(false); // this thread has prioty over this file now, only set to true once blocks are persisted
+					response.setFilename(Inp.getFilename());
+					response.setFilehandle(Inp.getFilehandle()); // some unique id for files?
+					response.setReplication(Inp.getReplication());
+					/**for(String i : Inp.getChunkListList()) {
+						response.addChunkList(i);
+					}**/
+				} else if(Inp.getFilehandle() == 0){ // read protocol
+					if(fileInfoList.size() == 0){
+						System.out.println("Requested file does not exist");
+						response.setWritemode(false);
+						return response.build().toByteArray(); // send response back to client, not successful
+					}
+					for(FileInfo i : fileInfoList){
+						if((i.filename.equals(Inp.getFileName)) && i.writemode){ // file is already in hdfs and is ready to be opened
+							response.setFilename(i.filename);
+							response.setFilehandle(i.filehandle);
+							response.setWritemode(i.writemode);
+							response.setReplication(i.replication);
+							response.build().toByteArray(); // send response back to client
+						}
+					}
 				}
-			} else {
+			/**} else {
 				System.out.println("File does not exist");
-			}
+				System.err.println("Error: File does not exit");
+			}**/
 		}
 		catch (Exception e)
 		{
@@ -145,12 +179,25 @@ public class NameNode implements INameNode{
 		return response.build().toByteArray();
 	}
 
-	// 2: closes file after writing
-
+	/**
+	* Closes file after writing / messing with it
+	*/
 	public synchronized byte[] closeFile(byte[] inp ) throws RemoteException {
 		ds.hdfs.marshallstuff.FileInfo.Builder response = ds.hdfs.marshallstuff.FileInfo.newBuilder();
 		try{
 			//implement
+			ds.hdfs.marshallstuff.FileInfo Inp = ds.hdfs.marshallstuff.FileInfo.parseFrom(inp);
+			if(fileInfoList.size() == 0){
+				response.setWritemode(false);
+				return response.build().toByteArray();
+			}
+			for(FileInfo i : fileInfoList){
+				if((i.filename.equals(Inp.getFileName)) && !(i.writemode)){ // file is already in hdfs and is not ready to be opened
+					i.writemode = true;
+					response.setWritemode(true);
+					response.build().toByteArray(); // send response back to client, not successful
+				}
+			}
 		}
 		catch(Exception e)
 		{
@@ -158,7 +205,6 @@ public class NameNode implements INameNode{
 			e.printStackTrace();
 		//	response.setStatus(-1);
 		}
-
 		return response.build().toByteArray();
 	}
 

@@ -59,13 +59,13 @@ public class Client
     }
 
 
-    public void PutFile(String Filename) {
+    public synchronized void PutFile(String Filename) {
         System.out.println("Going to put file" + Filename);
 
         try{
         	/**
         	// Preparing file for export
-        	// breaking into chunks
+        	// breaking into 64MB chunks
         	 *
         	 */
         	File file = new File(Filename);
@@ -95,10 +95,11 @@ public class Client
             // eventually refer to the configuration file for parameters
              *
              */
-            FileInfo.Builder fileinfo = FileInfo.newBuilder();
-        	fileinfo.setReplication(2); // number blocks passed in
-        	fileinfo.setFilename(Filename);
-        	fileinfo.setWritemode(true); // true ?????
+          FileInfo.Builder fileinfo = FileInfo.newBuilder();
+          fileinfo.setFilename(Filename);
+        	fileinfo.setReplication(2); // replication factor of the blocks to be passed to dataNodes
+          fileinfo.setFilehandle(1); // 0 for read, 1 for write
+        	//fileinfo.setWritemode(true);
 
         	// --> marshall data into byte array using google protobuf and pass it in as input to the NameNode
         	byte[] inputInit = fileinfo.build().toByteArray(); // pass in protobuf object
@@ -106,14 +107,15 @@ public class Client
         	/**
         	 * Sending to NameNode
         	 */
-
         	byte[] input = tmpNameNode.openFile(inputInit); // opened the file, received protobuf object
-
+          if(openInfo.getWritemode() == false){
+            System.out.println("Cannot access file now");
+            return; // writemode was equal false
+          }
         	/**
         	 * Sending to NameNode to assign blocks for a particular file
         	 */
-
-        	byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned, protobuf object received
+        	byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned, protobuf object received --> stored in Chunks data structure
 
         	// extract ip addresses here
         	FileInfo msgResponse = FileInfo.parseFrom(blkLocations);
@@ -146,6 +148,11 @@ public class Client
              * Finally close the file
              */
             byte[] doneWrite = tmpNameNode.closeFile(input);
+            FileInfo resWrite = FileInfo.parseFrom(doneWrite);
+            if(!(resWrite.getWritemode)){
+              System.out.println("Error closing file; Error persisting file");
+              return;
+            }
             // Done with writing chunks to their respective DataNodes
         }catch(Exception e){
             System.out.println("File not found !!!");
@@ -160,13 +167,23 @@ public class Client
 
         FileInfo.Builder fileinfo = FileInfo.newBuilder();
         fileinfo.setFilename(Filename);
+        fileinfo.setReplication(2); // replication factor of the blocks
+        fileinfo.setFilehandle(0); // 0 for read, 1 for write
 
-    	byte[] inputInit = fileinfo.build().toByteArray(); // pass in protobuf object
-    	byte[] input = tmpNameNode.openFile(inputInit); // opened the file, received protobuf object
+        // --> marshall data into byte array using google protobuf and pass it in as input to the NameNode
+        byte[] inputInit = fileinfo.build().toByteArray(); // pass in protobuf object
 
-    	/**
-    	 * Sending to Name Node
-    	 */
+        byte[] input = tmpNameNode.openFile(inputInit); // opened the file, received protobuf object
+        FileInfo openInfo = FileInfo.parseFrom(input);
+        // The file does not exist in hdfs
+        if(openInfo.getWritemode() == false){
+          System.out.println("Cannot access file now or file does not exist in hdfs");
+          return; // writemode was equal false
+        }
+
+      	/**
+      	 * Sending to Name Node
+      	 */
         byte[] byteResInfo = tmpNameNode.getBlockLocations(input); // IPs of DataNode are given
 
         FileInfo resInfo = FileInfo.parseFrom(byteResInfo);
