@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -59,11 +60,13 @@ public class NameNode implements INameNode{
 	String ip;
 	int port;
 	String name;
+	//public static int chunkRep;
   public static LinkedList<DataNode> dataNodeList;
   public static LinkedList<FileInfo> fileInfoList;
 
 	public NameNode(String addr,int p, String nn)
 	{
+		System.setProperty("java.rmi.server.hostname",addr);
 		ip = addr;
 		port = p;
 		name = nn;
@@ -259,10 +262,10 @@ public class NameNode implements INameNode{
 				for(int j = 0; j<list.size(); j++){
 					int i = 0;
 					StringBuilder chunkInfoBuild = new StringBuilder(200);
-					chunkInfoBuild.append(list.get(j));
+					chunkInfoBuild.append(list.get(j)); // name of chunk
 					while((i < dataNodeList.size()) && (repFactor > 0)) {
 						DataNode chosen = dataNodeList.get(i);
-						chunkInfoBuild.append(","+chosen.ip);
+						chunkInfoBuild.append(","+chosen.serverName+"|"+chosen.ip+"|"+chosen.port); // passing in DataNode information
 						repFactor--;
 						i++;
 					}
@@ -326,7 +329,7 @@ public class NameNode implements INameNode{
 
       for(DataNode i : dataNodeList) {
 				if(i.ip.equals(newNode.ip)) {
-					System.out.println("Data Node is already documented");
+					System.out.println(i.serverName+" already documented");
 					has = true;
 				}
 			}
@@ -365,6 +368,7 @@ public class NameNode implements INameNode{
 
 	/**
 	 * Extra getters and setters and print messages
+	 * Note: Not used
 	 *
 	 */
 	public void printMsg(String msg)
@@ -384,13 +388,32 @@ public class NameNode implements INameNode{
 	{
 		// NN just persists the filename, list of blocks associated to that file and its creating time
 		// Once DNs send blockReports, NN then knows the locations of each block and tracks this information in memory.
-		/**
+				/**
          * Server code
          */
-        System.setProperty("java.rmi.server.hostname","cp.cs.rutgers.edu");
+				String configFile = args[0];
+				BufferedReader br = new BufferedReader(new FileReader(new File(configFile)));
+				String sample = null;
+				String NNName = "";
+				String ip = "";
+				int port = 0;
+				//int replication = 0;
+				while((sample = br.readLine()) != null) {
+					String[] splitSample = sample.split(";");
+					NNName = splitSample[0];
+					ip = splitSample[1];
+					port = Integer.parseInt(splitSample[2]);
+					//replication = Integer.parseInt(replication);
+				}
+				br.close();
+				if(NNName.equals("") || ip.equals("") || port == 0 ){ //|| replication == 0){
+					System.out.println("Error from reading from Name Node config file");
+					return;
+				}
 
         try {
-            NameNode obj = new NameNode("cp.cs.rutgers.edu",2002,"NameNode");
+            NameNode obj = new NameNode(ip,port,NNName);
+						//chunkRep = replication;
             INameNode stub = (INameNode) UnicastRemoteObject.exportObject(obj, 0);
 
             Registry registry = LocateRegistry.createRegistry(obj.port);

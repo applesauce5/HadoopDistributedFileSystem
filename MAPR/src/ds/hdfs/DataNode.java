@@ -159,8 +159,7 @@ public class DataNode implements IDataNode
     // NameNode then knows the locations of each block and tracks this information in memory
     public synchronized void BlockReport() throws IOException, InterruptedException {
     	// call NameNode's Block report and heartbeat messages
-    	 INameNode tmpNameNode = GetNNStub("NameNode","cp.cs.rutgers.edu",2002);
-    	 this.NNStub = tmpNameNode;
+    	 INameNode tmpNameNode = this.NNStub;//GetNNStub("NameNode","cp.cs.rutgers.edu",2002);
     	 DataNodeInfo.Builder response = DataNodeInfo.newBuilder();
     	 response.setIp(this.MyIP);
     	 response.setPort(this.MyPort);
@@ -191,7 +190,7 @@ public class DataNode implements IDataNode
     // Server code stuff
     // DataNode is supposed to send heart beats to namenode + block report
     // Seen in client code <<<<<------------------------
-    public INameNode GetNNStub(String Name, String IP, int Port) 
+    public INameNode GetNNStub(String Name, String IP, int Port)
     {
         while(true)
         {
@@ -225,8 +224,56 @@ public class DataNode implements IDataNode
     public static void main(String args[]) throws InvalidProtocolBufferException, IOException, InterruptedException {
         // Define a Datanode Me
 
-        DataNode Me = new DataNode("ls.cs.rutgers.edu",2002,"DataNode");
+        // first argument is the DataNode configuration files
+        // second argument is the specific dataNode to be running specific to the host machines
+        String configFile = args[0];
+        String identifyDNName = args[1];
+        String NNconfigFile = args[2];
 
+
+        // Loading in info from data node config file
+        BufferedReader br = new BufferedReader(new FileReader(new File(configFile)));
+        String sample = null;
+        String DataNodeName = "";
+        String ip = "";
+        int port = 0;
+        while((sample = br.readLine()) != null) {
+          String[] splitSample = sample.split(";");
+          if(splitSample[0].equals(identifyDNName)){
+            DataNodeName = splitSample[0];
+            ip = splitSample[1];
+            port = Integer.parseInt(splitSample[2]);
+          }
+        }
+        br.close();
+
+        if(ip.equals("") || DataNodeName.equals("") || (port == 0)){
+          System.out.println("Error loading DataNode config file info");
+          return;
+        }
+
+        //Loading NameNode Information
+        BufferedReader NNbr = new BufferedReader(new FileReader(new File(NNconfigFile)));
+        String NNsample = null;
+        String NNName = "";
+        String NNip = "";
+        int NNport = 0;
+        //int replication = 0;
+        while((NNsample = NNbr.readLine()) != null) {
+          String[] splitSample = NNsample.split(";");
+          NNName = splitSample[0];
+          NNip = splitSample[1];
+          NNport = Integer.parseInt(splitSample[2]);
+          //replication = Integer.parseInt(replication);
+        }
+        NNbr.close();
+        if(NNName.equals("") || NNip.equals("") || NNport == 0){ //|| replication == 0){
+          System.out.println("Error from reading from Name Node config file");
+          return;
+        }
+
+        DataNode Me = new DataNode(ip,port,DataNodeName);
+        Me.NNStub = Me.GetNNStub(NNName,NNip,NNport);
         /*
          * Server code
          */
