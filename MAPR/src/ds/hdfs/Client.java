@@ -195,16 +195,20 @@ public class Client
         byte[] byteResInfo = tmpNameNode.getBlockLocations(input); // IPs of DataNode are given
 
         FileInfo resInfo = FileInfo.parseFrom(byteResInfo);
-    	ArrayList<String> list = (ArrayList<String>) resInfo.getChunkListList();
+  	   ArrayList<String> list = (ArrayList<String>) resInfo.getChunkListList();
 
         // Go to the Data Nodes to retrieve the blocks and read from each in sequence to combine them
 
     	LinkedList<File> chunkList = new LinkedList<File>();
 
     	for(int i = 0; i < list.size(); i++) {
-    		IDataNode tmpDataNode = GetDNStub("DataNode", list.get(i),2002);
-    		chunkInfo.Builder newchunk = chunkInfo.newBuilder();
-        	newchunk.setFilename(i + Filename);
+          String[] splitPhrase = list.get(i).split(",",-1);
+          String chunkName = splitPhrase[0];
+
+    		  IDataNode tmpDataNode = GetDNStub("DataNode", splitPhrase[1],2002);
+
+          chunkInfo.Builder newchunk = chunkInfo.newBuilder();
+        	newchunk.setFilename(chunkName);
 
         	byte[] readchunk = newchunk.build().toByteArray();
 
@@ -244,19 +248,22 @@ public class Client
 
     	  NameSpace.Builder input = NameSpace.newBuilder(); // placebo input
     	  byte[] res = tmpNameNode.list(input.build().toByteArray());
-    	  NameSpace listOfFilesByte;
 
     	  try {
-    		  listOfFilesByte = NameSpace.parseFrom(res);
+    		  NameSpace listOfFilesByte = NameSpace.parseFrom(res);
 	    	  LinkedList<String> listFiles = (LinkedList<String>) listOfFilesByte.getFilenameList();
+          if(listFiles.size()==0){
+            System.out.println("No files in HDFS");
+            return;
+          }
 	    	  for(String i : listFiles) {
 	    		  System.out.println(i);
 	    	  }
-		  } catch (InvalidProtocolBufferException e) {
-			  // TODO Auto-generated catch block
-			  System.out.println("error in parsing info");
-			  e.printStackTrace();
-		  }
+  		  } catch (InvalidProtocolBufferException e) {
+  			  // TODO Auto-generated catch block
+  			  System.out.println("error in parsing info");
+  			  e.printStackTrace();
+  		  }
     }
 
     /**

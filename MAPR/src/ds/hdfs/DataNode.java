@@ -191,11 +191,10 @@ public class DataNode implements IDataNode
     // Server code stuff
     // DataNode is supposed to send heart beats to namenode + block report
     // Seen in client code <<<<<------------------------
-    public INameNode GetNNStub(String Name, String IP, int Port) throws InterruptedException
+    public INameNode GetNNStub(String Name, String IP, int Port) 
     {
         while(true)
         {
-          TimeUnit.SECONDS.sleep(3);
             try
             {
                 Registry registry = LocateRegistry.getRegistry(IP, Port);

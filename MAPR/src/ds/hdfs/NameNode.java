@@ -294,6 +294,7 @@ public class NameNode implements INameNode{
 		NameSpace.Builder response = NameSpace.newBuilder();
 		if(fileInfoList.size() == 0) {
 			System.out.println("No files in HDFS");
+			return response.build().toByteArray();
 		}
 		try {
 			//Implement
