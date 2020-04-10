@@ -59,14 +59,17 @@ public class NameNode implements INameNode{
 	String ip;
 	int port;
 	String name;
+  public static LinkedList<DataNode> dataNodeList;
+  public static LinkedList<FileInfo> fileInfoList;
 
 	public NameNode(String addr,int p, String nn)
 	{
 		ip = addr;
 		port = p;
 		name = nn;
+    dataNodeList = new LinkedList<DataNode>();
+    fileInfoList = new LinkedList<FileInfo>();
 	}
-
 	public static class DataNode
 	{
 		String ip;
@@ -79,9 +82,6 @@ public class NameNode implements INameNode{
 			serverName = sname;
 		}
 	}
-
-	public static LinkedList<DataNode> dataNodeList;
-
 
 	public static class FileInfo
 	{
@@ -99,8 +99,6 @@ public class NameNode implements INameNode{
 			replication = rep;
 		}
 	}
-
-	public static LinkedList<FileInfo> fileInfoList;
 	/**
 	// Open a file given file name with read-write flag
 	boolean findInFilelist(int fhandle) {
@@ -261,7 +259,8 @@ public class NameNode implements INameNode{
 			DataNodeInfo Inp = DataNodeInfo.parseFrom(inp);
 			boolean has = false;
 			DataNode newNode = new DataNode(Inp.getIp(),Inp.getPort(),Inp.getServerName());
-			for(DataNode i : dataNodeList) {
+
+      for(DataNode i : dataNodeList) {
 				if(i.ip.equals(newNode.ip)) {
 					System.out.println("Data Node is already documented");
 					has = true;
@@ -324,7 +323,7 @@ public class NameNode implements INameNode{
 		/**
          * Server code
          */
-        System.setProperty("java.rmi.server.hostname","cd.cs.rutgers.edu");
+        System.setProperty("java.rmi.server.hostname","cp.cs.rutgers.edu");
 
         try {
             NameNode obj = new NameNode("cp.cs.rutgers.edu",2002,"NameNode");
@@ -334,7 +333,7 @@ public class NameNode implements INameNode{
 
             registry.rebind("NameNode", stub);
 
-            System.err.println("Server ready");
+            System.err.println("NameNode Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             e.printStackTrace();

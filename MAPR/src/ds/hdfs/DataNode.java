@@ -100,7 +100,7 @@ public class DataNode implements IDataNode
     		chunkInfo input = chunkInfo.parseFrom(Inp);
         	String filename = input.getFilename();
 
-        	File file = new File(filename);
+        	File file = new File("/DataNodeChunks/"+filename);
         	byte[] bytesArray = new byte[(int) file.length()];
     	    FileInputStream fis = new FileInputStream(file);
     	    fis.read(bytesArray); //read file into bytes[]
@@ -139,7 +139,7 @@ public class DataNode implements IDataNode
         	chunkInfo input = chunkInfo.parseFrom(Inp);
         	String filename = input.getFilename();
 
-        	File file = new File(filename);
+        	File file = new File("/DataNodeChunks/"+filename);
         	ByteString store = input.getFileData();
 
         	store.writeTo(new FileOutputStream(file)); // block is written into the file
@@ -156,9 +156,9 @@ public class DataNode implements IDataNode
 
     // BlockReports sent with HeartBeats to the NameNode
     // NameNode then knows the locations of each block and tracks this information in memory
-    public synchronized void BlockReport() throws IOException {
+    public synchronized void BlockReport() throws IOException, InterruptedException {
     	// call NameNode's Block report and heartbeat messages
-    	 INameNode tmpNameNode = GetNNStub("NameNode","cp.cs.rutgers.edu",1099);
+    	 INameNode tmpNameNode = GetNNStub("NameNode","cp.cs.rutgers.edu",2002);
     	 this.NNStub = tmpNameNode;
     	 DataNodeInfo.Builder response = DataNodeInfo.newBuilder();
     	 response.setIp(this.MyIP);
@@ -190,10 +190,11 @@ public class DataNode implements IDataNode
     // Server code stuff
     // DataNode is supposed to send heart beats to namenode + block report
     // Seen in client code <<<<<------------------------
-    public INameNode GetNNStub(String Name, String IP, int Port)
+    public INameNode GetNNStub(String Name, String IP, int Port) throws InterruptedException
     {
         while(true)
         {
+          TimeUnit.SECONDS.sleep(3);
             try
             {
                 Registry registry = LocateRegistry.getRegistry(IP, Port);
