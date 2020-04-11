@@ -18,7 +18,7 @@ import ds.hdfs.marshallstuff.*;
 import ds.hdfs.marshallstuff.FileInfo;
 import ds.hdfs.marshallstuff.chunkInfo;
 /**
- * -> Design the message protocol using protobuf. That will help you in standardizing your work across functions and files.
+ * -> Design the message protocol using protobuf.
  * @author mcho5
  *
  */
@@ -70,7 +70,7 @@ public class Client
         try{
         	/**
         	// Preparing file for export
-        	// breaking into 64MB chunks
+        	// breaking into chunks
         	 *
         	 */
         	File file = new File(Filename);
@@ -78,17 +78,18 @@ public class Client
           int blockSize = blkSize; // 40
           byte[] buffer = new byte[blockSize];
         	BufferedInputStream BuffIS = new BufferedInputStream(new FileInputStream(file));
-        	LinkedList<File> chunkFiles = new LinkedList<File>();  // List of chunk files
+        	LinkedList<ByteString> chunkFiles = new LinkedList<ByteString>();  // List of chunk files
 
         	int bytesAmount = 0;
         	int count = 1;
         	while((bytesAmount = BuffIS.read(buffer)) > 0) {
-        		String chunkFile = String.format("%s.%03d", Filename, count++);
+        		/**String chunkFile = String.format("%s.%03d", Filename, count++);
         		File newFile = new File(file.getParent(), chunkFile);
         		try(FileOutputStream out = new FileOutputStream(newFile)){
         			out.write(buffer, 0, bytesAmount);
         			out.close();
-        		}
+        		}**/
+            ByteString newFile = ByteString.copyFrom(buffer,0,bytesAmount);
         		chunkFiles.add(newFile); // adding on to the list of files
         	}
         	BuffIS.close();
@@ -166,11 +167,11 @@ public class Client
               	newchunk.setFilename(chunkName);
 
               	// File --> byte[]
-              	byte[] chunk = new byte[(int) chunkFiles.get(i).length()];
+          /**    	byte[] chunk = new byte[(int) chunkFiles.get(i).length()];
               	FileInputStream fis = new FileInputStream(chunkFiles.get(i));
               	fis.read(chunk);
-              	fis.close();
-              	newchunk.setFileData(ByteString.copyFrom(chunk)); // File --> byte[] --> ByteString
+              	fis.close();**/
+              	newchunk.setFileData(chunkFiles.get(i)); // File --> byte[] --> ByteString
 
               	byte[] insertchunk = newchunk.build().toByteArray();
               	 // Sending to DataNode
@@ -261,7 +262,15 @@ public class Client
     	/**
     	 *  Combine all the chunks read into 1 file
     	 */
-    	File finalFile = new File(Filename);
+    	File finalFileInit = new File(Filename);
+      File finalFile = null;
+      if(finalFileInit.exists()){
+        System.out.println("File already exists, dumping into "+"result"+Filename);
+        finalFile = new File("result"+Filename);
+      } else {
+        finalFile = new File(Filename);
+      }
+
     	OutputStream output = new BufferedOutputStream(new FileOutputStream(finalFile, true));
     	for(File src : chunkList) {
     		InputStream is = new BufferedInputStream(new FileInputStream(src));
@@ -285,7 +294,7 @@ public class Client
 
     	  try {
     		  NameSpace listOfFilesByte = NameSpace.parseFrom(res);
-	    	  LinkedList<String> listFiles = (LinkedList<String>) listOfFilesByte.getFilenameList();
+	    	  List<String> listFiles = listOfFilesByte.getFilenameList();
           if(listFiles.size()==0){
             System.out.println("No files in HDFS");
             return;

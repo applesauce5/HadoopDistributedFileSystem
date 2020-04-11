@@ -1,2 +1,2 @@
-size:40000
+size:30
 replication:2
