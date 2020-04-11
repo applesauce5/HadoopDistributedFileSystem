@@ -95,13 +95,13 @@ public class DataNode implements IDataNode
      * 	closeFile()
      */
     public synchronized byte[] readBlock(byte[] Inp) {
-
+      System.out.println("Reading block ====================");
     	chunkInfo.Builder newRes = chunkInfo.newBuilder();
     	try {
     		  chunkInfo input = chunkInfo.parseFrom(Inp);
         	String filename = input.getFilename();
 
-        	File file = new File("/DataNodeChunks/"+filename);
+        	File file = new File("DataNodeChunks/"+filename);
         	byte[] bytesArray = new byte[(int) file.length()];
     	    FileInputStream fis = new FileInputStream(file);
     	    fis.read(bytesArray); //read file into bytes[]
@@ -134,13 +134,14 @@ public class DataNode implements IDataNode
 	* 	closeFile()
     */
     public synchronized byte[] writeBlock(byte[] Inp) {
+      System.out.println("Writing block===============");
     	chunkInfo.Builder newRes = chunkInfo.newBuilder();
         try {
         	// implement
         	chunkInfo input = chunkInfo.parseFrom(Inp);
         	String filename = input.getFilename();
 
-        	File file = new File("/DataNodeChunks/"+filename);
+        	File file = new File("DataNodeChunks/"+filename);
         	ByteString store = input.getFileData();
 
         	store.writeTo(new FileOutputStream(file)); // block is written into the file

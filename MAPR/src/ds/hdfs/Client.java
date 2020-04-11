@@ -27,13 +27,13 @@ public class Client
     //Variables Required
     public INameNode NNStub; //Name Node stub
     public IDataNode DNStub; //Data Node stub
-    public static int chunkRep;
+    public int chunkRep;
     public static int blkSize;
 
     public Client(int cRep,int bSize){
         //Get the Name Node Stub
         //nn_details contain NN details in the format Server;IP;Port
-        chunkRep = cRep;
+        this.chunkRep = cRep;
         blkSize = bSize;
         //this.NNStub = NNStub;
     }
@@ -66,7 +66,7 @@ public class Client
 
 
     public synchronized void PutFile(String Filename) {
-        System.out.println("Going to put file" + Filename);
+        System.out.println("Going to put file " + Filename);
         try{
         	/**
         	// Preparing file for export
@@ -103,7 +103,8 @@ public class Client
              */
           FileInfo.Builder fileinfo = FileInfo.newBuilder();
           fileinfo.setFilename(Filename);
-        	fileinfo.setReplication(chunkRep); // replication factor of the blocks to be passed to dataNodes
+        	fileinfo.setReplication(this.chunkRep); // replication factor of the blocks to be passed to dataNodes
+          System.out.println("Replication number ============="+ this.chunkRep);
           fileinfo.setFilehandle(1); // 0 for read, 1 for write
         	//fileinfo.setWritemode(true);
 
@@ -122,32 +123,43 @@ public class Client
           openFlResponse.setReplication(in.getReplication());
           openFlResponse.addAllChunkList(in.getChunkListList());
 
-          if(openFlResponse.getWritemode() == false){
+          if(in.getWritemode() == true){
             System.out.println("Cannot access file now");
             return; // writemode was equal false
           }
 
+          System.out.println("AssigningChunks=================");
           // Now have a list of chunknames to pass onto NameNode
           for(int i = 0; i< chunkFiles.size(); i++){
-            String chunkName = i+Filename;
+            StringBuilder chunkBuild = new StringBuilder();
+            chunkBuild.append(Integer.toString(i));
+            chunkBuild.append(Filename);
+            String chunkName = chunkBuild.toString();
             openFlResponse.addChunkList(chunkName);
           }
           // Sending to NameNode to assign blocks for a particular file
-          byte[] blkLocations = tmpNameNode.assignBlock(input); // IPs of the replicated Blocks are returned, protobuf object received --> stored in Chunks data structure
+          byte[] blkLocations = tmpNameNode.assignBlock(openFlResponse.build().toByteArray()); // IPs of the replicated Blocks are returned, protobuf object received --> stored in Chunks data structure
 
           // extract ip addresses here
           FileInfo msgResponse = FileInfo.parseFrom(blkLocations);
 
-          ArrayList<String> list = (ArrayList<String>) msgResponse.getChunkListList();
+          List<String> list =  msgResponse.getChunkListList();
 
+          System.out.println("Contacting DataNode servers==============");
           // Going through each chunk from large file
+          System.out.println("List size " + list.size() );
           for(int i = 0; i < list.size(); i++) {
-              String[] splitPhrase = list.get(i).split(",",-1);
+            System.out.println(list.get(i) + " ================== metadata");
+              String[] splitPhrase = list.get(i).split(",");
               String chunkName = splitPhrase[0];
               // distribute chunk replicas among given DataNodes
+              System.out.println("Split phrase length : "+ splitPhrase.length);
               for(int k = 1; k < splitPhrase.length;k++){
-                String[] dataNodeMeta = splitPhrase[k].split("|");
-
+                System.out.println(splitPhrase[k]);
+                String[] dataNodeMeta = splitPhrase[k].split("\\|");
+                System.out.println(dataNodeMeta[0]);
+                System.out.println(dataNodeMeta[1]);
+                System.out.println(dataNodeMeta[2]);
               	IDataNode tmpDataNode = GetDNStub(dataNodeMeta[0],dataNodeMeta[1],Integer.parseInt(dataNodeMeta[2])); // (name, ip, port)
 
               	chunkInfo.Builder newchunk = chunkInfo.newBuilder();
@@ -163,6 +175,7 @@ public class Client
               	byte[] insertchunk = newchunk.build().toByteArray();
               	 // Sending to DataNode
               	 // -> passing in by chunk by chunk to the DataNodes	to the ip addresses given
+                 System.out.println("Sending chunk to datanode=============");
               	tmpDataNode.writeBlock(insertchunk); //
               }
           }
@@ -170,6 +183,7 @@ public class Client
           /**
            * Finally close the file
            */
+           System.out.println("Closing File ===================");
           byte[] doneWrite = tmpNameNode.closeFile(input);
           FileInfo resWrite = FileInfo.parseFrom(doneWrite);
           if(!(resWrite.getWritemode())){
@@ -179,6 +193,8 @@ public class Client
             // Done with writing chunks to their respective DataNodes
         }catch(Exception e){
             System.out.println("File not found !!!");
+            System.out.println(e);
+            e.printStackTrace();
             return;
         }
     }
@@ -190,7 +206,7 @@ public class Client
 
         FileInfo.Builder fileinfo = FileInfo.newBuilder();
         fileinfo.setFilename(Filename);
-        fileinfo.setReplication(chunkRep); // replication factor of the blocks
+        fileinfo.setReplication(this.chunkRep); // replication factor of the blocks
         fileinfo.setFilehandle(0); // 0 for read, 1 for write
 
         // --> marshall data into byte array using google protobuf and pass it in as input to the NameNode
@@ -207,10 +223,11 @@ public class Client
       	/**
       	 * Sending to Name Node
       	 */
+         System.out.println("Getting block locations======");
         byte[] byteResInfo = tmpNameNode.getBlockLocations(input); // IPs of DataNode are given
 
         FileInfo resInfo = FileInfo.parseFrom(byteResInfo);
-  	   ArrayList<String> list = (ArrayList<String>) resInfo.getChunkListList();
+	     List<String> list = resInfo.getChunkListList();
 
         // Go to the Data Nodes to retrieve the blocks and read from each in sequence to combine them
 
@@ -220,7 +237,7 @@ public class Client
           String[] splitPhrase = list.get(i).split(",",-1);
           String chunkName = splitPhrase[0];
 
-          String[] dataNodeMeta = splitPhrase[1].split("|");
+          String[] dataNodeMeta = splitPhrase[1].split("\\|");
     		  IDataNode tmpDataNode = GetDNStub(dataNodeMeta[0], dataNodeMeta[1],Integer.parseInt(dataNodeMeta[2])); // So far, can only handle reading from the same DataNode
 
           chunkInfo.Builder newchunk = chunkInfo.newBuilder();
@@ -231,6 +248,7 @@ public class Client
         	/**
         	 * Sending to DataNode, read a block from each DataNode and put inside a File Linked List
         	 */
+           System.out.println("Reading Block from data Node==========");
         	byte[] resByte = tmpDataNode.readBlock(readchunk);
         	ds.hdfs.marshallstuff.chunkInfo res = ds.hdfs.marshallstuff.chunkInfo.parseFrom(resByte);
         	ByteString fileByteStr = res.getFileData();
@@ -306,7 +324,8 @@ public class Client
           String[] splitSample = sample.split(":");
           if(splitSample[0].equals("size")){
             chunkSz = Integer.parseInt(splitSample[1]);
-          } else if(splitSample[1].equals("replication")){
+          }
+          if(splitSample[0].equals("replication")){
             rep = Integer.parseInt(splitSample[1]);
           }
         }
@@ -319,6 +338,7 @@ public class Client
         NNconfigReader.close();
 
         Client Me = new Client(rep,chunkSz);//,serverNode);
+        System.out.println();
         Me.NNStub = Me.GetNNStub(splitSample[0],splitSample[1],Integer.parseInt(splitSample[2]));
 
         // Start of application

@@ -133,8 +133,8 @@ public class NameNode implements INameNode{
 					if(fileInfoList.size() != 0){
 						for(FileInfo i : fileInfoList){
 							if( (i.filename.equals(Inp.getFilename())) && !(i.writemode) ){ // file is already in hdfs and is not ready to be opened
-								System.out.println("File cannot be opened");
-								response.setWritemode(false);
+								System.out.println("File : " +Inp.getFilename()+" cannot be opened ======");
+								response.setWritemode(true);
 								return response.build().toByteArray(); // send response back to client, not successful
 							}
 						}
@@ -143,11 +143,12 @@ public class NameNode implements INameNode{
 					FileInfo newFile = new FileInfo(Inp.getFilename(),Inp.getFilehandle(),false,Inp.getReplication());
 					fileInfoList.add(newFile); // added to list of files in hdfs
 
-					System.out.println("File is a file and exists");
+					System.out.println("Creating new file entry in HDFS ======");
 					response.setWritemode(false); // this thread has prioty over this file now, only set to true once blocks are persisted
 					response.setFilename(Inp.getFilename());
 					response.setFilehandle(Inp.getFilehandle()); // some unique id for files?
 					response.setReplication(Inp.getReplication());
+					return response.build().toByteArray();
 					/**for(String i : Inp.getChunkListList()) {
 						response.addChunkList(i);
 					}**/
@@ -258,15 +259,24 @@ public class NameNode implements INameNode{
 			if(dataNodeList.size() == 0) {
 				System.out.println("No Data Nodes available");
 			} else {
-				ArrayList<String> list = (ArrayList<String>) Inp.getChunkListList();
+				List<String> list = Inp.getChunkListList();
+				System.out.println("Size of incoming chunk list : " + list.size());
 				for(int j = 0; j<list.size(); j++){
 					int i = 0;
-					StringBuilder chunkInfoBuild = new StringBuilder(200);
+					int k = repFactor;
+					StringBuilder chunkInfoBuild = new StringBuilder(500);
 					chunkInfoBuild.append(list.get(j)); // name of chunk
-					while((i < dataNodeList.size()) && (repFactor > 0)) {
+					System.out.println("Size of dataNodeList ===============" + dataNodeList.size());
+					System.out.println("Replication factor============= " + repFactor);
+					while((i < dataNodeList.size()) && (k > 0)) {
 						DataNode chosen = dataNodeList.get(i);
-						chunkInfoBuild.append(","+chosen.serverName+"|"+chosen.ip+"|"+chosen.port); // passing in DataNode information
-						repFactor--;
+						chunkInfoBuild.append(",");
+						chunkInfoBuild.append(chosen.serverName);
+						chunkInfoBuild.append("|");
+						chunkInfoBuild.append(chosen.ip);
+						chunkInfoBuild.append("|");
+						chunkInfoBuild.append(Integer.toString(chosen.port)); // passing in DataNode information
+						k--;
 						i++;
 					}
 					String IpMeta = chunkInfoBuild.toString();// finished assigning ip to chunks
@@ -279,6 +289,7 @@ public class NameNode implements INameNode{
 					newFInfo.addChunkList(IpMeta);  // assigning IP's to the chunks
 				}
 			}
+			return newFInfo.build().toByteArray();
 		}
 		catch(Exception e)
 		{
@@ -293,7 +304,7 @@ public class NameNode implements INameNode{
 	// 1: "persists the filename" = list of blocks associated with a particular file ??
 	// 3: list of DataNodes that host replicas of the blocks of the file
 	// 4: Gets the list of files in HDFS <<<<<--------------- most likely this
-	public byte[] list(byte[] inp ) throws RemoteException {
+	public synchronized byte[] list(byte[] inp ) throws RemoteException {
 		NameSpace.Builder response = NameSpace.newBuilder();
 		if(fileInfoList.size() == 0) {
 			System.out.println("No files in HDFS");
