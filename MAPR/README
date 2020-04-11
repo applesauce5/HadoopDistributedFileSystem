@@ -1,0 +1,24 @@
+# How to run
+
+This specific setup is based on communication between lab machines
+- kill
+- ls
+- less
+- cp
+
+The makefile provided makes it so that you can start up each of the servers-----> TO RUN PROJECT
+1. make startNameNodeServer ------ will start the name node server and it is currently configured to >> cp.cs.rutgers.edu
+2. make startDataNodeServerLS ----- will start data node server 1 which will connect to NameNode >> ls.cs.rutgers.edu
+3. make startDataNOdeServerLESS ---- will start data node server 2 which will connect to NameNode >> less.cs.rutgers.edu
+4. make startClient ------- will start client program >> kill.cs.rutgers.edu
+--> begin user interface
+
+
+- Note: 
+	+each of the executions must be executed within their respected hosts
+	+ DataNodeChunks is used to store chunks
+All of this is executed in the current directory of source, all configuration settings are in the src/ fold, thought this implementation may not work for all variations of ilab machines
+
+Google Protobuf was used in this project
+
+
